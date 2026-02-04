@@ -1,5 +1,17 @@
 [
     {
+        "name": "WhistleblowerPrivateCollection",
+        "policy": "OR('WhistleblowersOrgMSP.member')",
+        "requiredPeerCount": 0,
+        "maxPeerCount": 1,
+        "blockToLive": 0,
+        "memberOnlyRead": true,
+        "memberOnlyWrite": true,
+        "endorsementPolicy": {
+            "signaturePolicy": "OR('WhistleblowersOrgMSP.member')"
+        }
+    },
+    {
         "name": "VerifierPrivateCollection",
         "policy": "OR('VerifierOrgMSP.member')",
         "requiredPeerCount": 0,

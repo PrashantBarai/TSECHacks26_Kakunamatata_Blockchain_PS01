@@ -47,10 +47,20 @@ func (c *WhistleblowerContract) SubmitEvidence(
 	fileType string,
 	fileSize int64,
 	category string,
+	publicKeyHash string,
+	signature string,
 ) error {
 	// Access control: only WhistleblowersOrg can submit
 	if err := RequireWhistleblowerOrg(ctx); err != nil {
 		return err
+	}
+
+	// Validate required fields
+	if publicKeyHash == "" {
+		return fmt.Errorf("publicKeyHash is required for anonymous identity")
+	}
+	if signature == "" {
+		return fmt.Errorf("signature is required to prove ownership of keypair")
 	}
 
 	// Check if evidence already exists
@@ -72,11 +82,11 @@ func (c *WhistleblowerContract) SubmitEvidence(
 			Action:      ActionSubmit,
 			ActorOrg:    callerOrg,
 			Timestamp:   timestamp,
-			Description: "Evidence submitted anonymously",
+			Description: "Evidence submitted anonymously via cryptographic keypair",
 		},
 	}
 
-	// Create evidence record
+	// Create evidence record with pseudonymous identity
 	evidence := Evidence{
 		DocType:         "evidence",
 		EvidenceID:      evidenceId,
@@ -89,6 +99,8 @@ func (c *WhistleblowerContract) SubmitEvidence(
 		Status:          StatusSubmitted,
 		IntegrityStatus: IntegrityPending,
 		CustodyLog:      custodyLog,
+		PublicKeyHash:   publicKeyHash,
+		Signature:       signature,
 	}
 
 	// Store on public ledger
@@ -97,7 +109,56 @@ func (c *WhistleblowerContract) SubmitEvidence(
 		return fmt.Errorf("failed to marshal evidence: %v", err)
 	}
 
-	return ctx.GetStub().PutState(evidenceId, evidenceJSON)
+	if err := ctx.GetStub().PutState(evidenceId, evidenceJSON); err != nil {
+		return fmt.Errorf("failed to store evidence: %v", err)
+	}
+
+	// Update reputation - increment total submissions
+	if err := c.updateReputationOnSubmit(ctx, publicKeyHash, timestamp); err != nil {
+		// Log but don't fail - reputation is secondary
+		fmt.Printf("Warning: failed to update reputation: %v\n", err)
+	}
+
+	return nil
+}
+
+// updateReputationOnSubmit updates reputation when new evidence is submitted
+func (c *WhistleblowerContract) updateReputationOnSubmit(ctx contractapi.TransactionContextInterface, publicKeyHash string, timestamp int64) error {
+	reputationKey := "reputation_" + publicKeyHash
+	
+	// Try to get existing reputation
+	reputationJSON, err := ctx.GetStub().GetPrivateData(WhistleblowerPrivateCollection, reputationKey)
+	
+	var reputation Reputation
+	if err != nil || reputationJSON == nil {
+		// First submission - create new reputation
+		reputation = Reputation{
+			DocType:             "reputation",
+			PublicKeyHash:       publicKeyHash,
+			TotalSubmissions:    1,
+			VerifiedSubmissions: 0,
+			RejectedSubmissions: 0,
+			ExportedSubmissions: 0,
+			TrustScore:          50, // Start at neutral
+			FirstSubmissionAt:   timestamp,
+			LastSubmissionAt:    timestamp,
+			LastUpdatedAt:       timestamp,
+		}
+	} else {
+		if err := json.Unmarshal(reputationJSON, &reputation); err != nil {
+			return err
+		}
+		reputation.TotalSubmissions++
+		reputation.LastSubmissionAt = timestamp
+		reputation.LastUpdatedAt = timestamp
+	}
+
+	reputationBytes, err := json.Marshal(reputation)
+	if err != nil {
+		return err
+	}
+
+	return ctx.GetStub().PutPrivateData(WhistleblowerPrivateCollection, reputationKey, reputationBytes)
 }
 
 // SubmitBulkEvidence submits multiple evidence items in a single transaction
@@ -218,6 +279,110 @@ func (c *WhistleblowerContract) UpdatePolygonAnchor(
 	return putEvidence(ctx, evidence)
 }
 
+// GetNotifications retrieves all notifications for a given public key hash
+// Whistleblowers can poll this to check if their evidence was rejected/verified
+func (c *WhistleblowerContract) GetNotifications(
+	ctx contractapi.TransactionContextInterface,
+	publicKeyHash string,
+) (*NotificationQueryResult, error) {
+	// Access control: only WhistleblowersOrg can read notifications
+	if err := RequireWhistleblowerOrg(ctx); err != nil {
+		return nil, err
+	}
+
+	// Query notifications by publicKeyHash from PDC
+	queryString := fmt.Sprintf(`{"selector":{"docType":"notification","publicKeyHash":"%s"}}`, publicKeyHash)
+	resultsIterator, err := ctx.GetStub().GetPrivateDataQueryResult(WhistleblowerPrivateCollection, queryString)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query notifications: %v", err)
+	}
+	defer resultsIterator.Close()
+
+	var notifications []*Notification
+	for resultsIterator.HasNext() {
+		queryResult, err := resultsIterator.Next()
+		if err != nil {
+			return nil, err
+		}
+
+		var notification Notification
+		if err := json.Unmarshal(queryResult.Value, &notification); err != nil {
+			return nil, err
+		}
+		notifications = append(notifications, &notification)
+	}
+
+	return &NotificationQueryResult{
+		Notifications: notifications,
+		Count:         len(notifications),
+	}, nil
+}
+
+// MarkNotificationRead marks a notification as read
+func (c *WhistleblowerContract) MarkNotificationRead(
+	ctx contractapi.TransactionContextInterface,
+	notificationId string,
+) error {
+	// Access control
+	if err := RequireWhistleblowerOrg(ctx); err != nil {
+		return err
+	}
+
+	notificationJSON, err := ctx.GetStub().GetPrivateData(WhistleblowerPrivateCollection, notificationId)
+	if err != nil {
+		return fmt.Errorf("failed to get notification: %v", err)
+	}
+	if notificationJSON == nil {
+		return fmt.Errorf("notification %s not found", notificationId)
+	}
+
+	var notification Notification
+	if err := json.Unmarshal(notificationJSON, &notification); err != nil {
+		return err
+	}
+
+	notification.Read = true
+
+	updatedJSON, err := json.Marshal(notification)
+	if err != nil {
+		return err
+	}
+
+	return ctx.GetStub().PutPrivateData(WhistleblowerPrivateCollection, notificationId, updatedJSON)
+}
+
+// GetReputation retrieves the reputation score for a public key hash
+func (c *WhistleblowerContract) GetReputation(
+	ctx contractapi.TransactionContextInterface,
+	publicKeyHash string,
+) (*Reputation, error) {
+	// Access control: only WhistleblowersOrg
+	if err := RequireWhistleblowerOrg(ctx); err != nil {
+		return nil, err
+	}
+
+	reputationKey := "reputation_" + publicKeyHash
+	reputationJSON, err := ctx.GetStub().GetPrivateData(WhistleblowerPrivateCollection, reputationKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get reputation: %v", err)
+	}
+	if reputationJSON == nil {
+		// No reputation yet - return default
+		return &Reputation{
+			DocType:       "reputation",
+			PublicKeyHash: publicKeyHash,
+			TrustScore:    50,
+		}, nil
+	}
+
+	var reputation Reputation
+	if err := json.Unmarshal(reputationJSON, &reputation); err != nil {
+		return nil, err
+	}
+
+	return &reputation, nil
+}
+
 // =============================================================================
 // VERIFIER CONTRACT (VerifierOrg only)
 // =============================================================================
@@ -228,11 +393,13 @@ type VerifierContract struct {
 }
 
 // VerifyIntegrity records the result of hash verification
+// If verification fails, a rejectionComment is REQUIRED and evidence is REJECTED (not forwarded to Legal)
 func (c *VerifierContract) VerifyIntegrity(
 	ctx contractapi.TransactionContextInterface,
 	evidenceId string,
 	computedHash string,
 	passed bool,
+	rejectionComment string,
 ) error {
 	// Access control: only VerifierOrg can verify
 	if err := RequireVerifierOrg(ctx); err != nil {
@@ -249,6 +416,11 @@ func (c *VerifierContract) VerifyIntegrity(
 		return fmt.Errorf("evidence status must be %s to verify, current: %s", StatusSubmitted, evidence.Status)
 	}
 
+	// If verification failed, require a comment
+	if !passed && rejectionComment == "" {
+		rejectionComment = "Hash verification failed: computed hash does not match stored hash. Evidence may have been tampered with."
+	}
+
 	callerOrg, _ := GetClientOrgID(ctx)
 	timestamp := time.Now().Unix()
 
@@ -256,15 +428,37 @@ func (c *VerifierContract) VerifyIntegrity(
 	if passed {
 		evidence.IntegrityStatus = IntegrityVerified
 		evidence.Status = StatusVerified
+		
+		// Update reputation - verified
+		if err := updateReputationOnVerify(ctx, evidence.PublicKeyHash, true, timestamp); err != nil {
+			fmt.Printf("Warning: failed to update reputation: %v\n", err)
+		}
+		
+		// Send success notification
+		sendNotification(ctx, evidence.PublicKeyHash, evidenceId, NotifyVerified, 
+			"Your evidence has been successfully verified. It will now proceed to legal review.", callerOrg, timestamp)
 	} else {
 		evidence.IntegrityStatus = IntegrityFailed
-		evidence.Status = StatusIntegrityFailed
+		evidence.Status = StatusRejected // REJECTED - does NOT go to LegalOrg
+		evidence.RejectionComment = rejectionComment
+		
+		// Update reputation - rejected
+		if err := updateReputationOnVerify(ctx, evidence.PublicKeyHash, false, timestamp); err != nil {
+			fmt.Printf("Warning: failed to update reputation: %v\n", err)
+		}
+		
+		// Send rejection notification to whistleblower
+		notificationMsg := fmt.Sprintf("Your evidence (ID: %s) was REJECTED during verification. Reason: %s. You may re-upload the evidence with a new ID.", evidenceId, rejectionComment)
+		sendNotification(ctx, evidence.PublicKeyHash, evidenceId, NotifyRejection, notificationMsg, callerOrg, timestamp)
 	}
 	evidence.VerifiedAt = timestamp
 
 	// Build verification description
 	description := fmt.Sprintf("Integrity check: computed=%s, stored=%s, result=%t",
 		computedHash, evidence.FileHash, passed)
+	if !passed {
+		description += fmt.Sprintf(" | Rejection: %s", rejectionComment)
+	}
 
 	// Add custody log
 	evidence.CustodyLog = append(evidence.CustodyLog, CustodyLog{
@@ -275,6 +469,84 @@ func (c *VerifierContract) VerifyIntegrity(
 	})
 
 	return putEvidence(ctx, evidence)
+}
+
+// updateReputationOnVerify updates reputation after verification
+func updateReputationOnVerify(ctx contractapi.TransactionContextInterface, publicKeyHash string, verified bool, timestamp int64) error {
+	if publicKeyHash == "" {
+		return nil // Legacy evidence without publicKeyHash
+	}
+	
+	reputationKey := "reputation_" + publicKeyHash
+	reputationJSON, err := ctx.GetStub().GetPrivateData(WhistleblowerPrivateCollection, reputationKey)
+	if err != nil || reputationJSON == nil {
+		return nil // No reputation record
+	}
+
+	var reputation Reputation
+	if err := json.Unmarshal(reputationJSON, &reputation); err != nil {
+		return err
+	}
+
+	if verified {
+		reputation.VerifiedSubmissions++
+		// Increase trust score (max 100)
+		reputation.TrustScore = min(100, reputation.TrustScore + 10)
+	} else {
+		reputation.RejectedSubmissions++
+		// Decrease trust score (min 0)
+		reputation.TrustScore = max(0, reputation.TrustScore - 15)
+	}
+	reputation.LastUpdatedAt = timestamp
+
+	reputationBytes, err := json.Marshal(reputation)
+	if err != nil {
+		return err
+	}
+
+	return ctx.GetStub().PutPrivateData(WhistleblowerPrivateCollection, reputationKey, reputationBytes)
+}
+
+// sendNotification creates a notification for the whistleblower
+func sendNotification(ctx contractapi.TransactionContextInterface, publicKeyHash string, evidenceId string, messageType string, message string, fromOrg string, timestamp int64) error {
+	if publicKeyHash == "" {
+		return nil // Legacy evidence
+	}
+
+	notificationId := fmt.Sprintf("notif_%s_%d", evidenceId, timestamp)
+	notification := Notification{
+		DocType:        "notification",
+		NotificationID: notificationId,
+		EvidenceID:     evidenceId,
+		PublicKeyHash:  publicKeyHash,
+		MessageType:    messageType,
+		Message:        message,
+		FromOrg:        fromOrg,
+		Timestamp:      timestamp,
+		Read:           false,
+	}
+
+	notificationJSON, err := json.Marshal(notification)
+	if err != nil {
+		return err
+	}
+
+	return ctx.GetStub().PutPrivateData(WhistleblowerPrivateCollection, notificationId, notificationJSON)
+}
+
+// Helper functions for min/max (Go 1.17 compatible)
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 // AddVerificationNote adds private technical notes (PDC - VerifierOrg only)

@@ -28,13 +28,19 @@ type Evidence struct {
 	// Bulk submission support
 	BulkSubmissionID string `json:"bulkSubmissionId"` // Groups evidence from same bulk upload
 	BulkIndex        int    `json:"bulkIndex"`        // Index within bulk submission
+	// Pseudonymous identity support
+	PublicKeyHash string `json:"publicKeyHash"` // SHA256 hash of submitter's public key (anonymous identifier)
+	Signature     string `json:"signature"`     // Digital signature of evidence hash using private key
+	// Rejection info
+	RejectionComment string `json:"rejectionComment"` // Comment when integrity fails
 }
 
 // Evidence Status Constants
 const (
 	StatusSubmitted       = "SUBMITTED"        // Initial state after submission
 	StatusVerified        = "VERIFIED"         // Integrity check passed
-	StatusIntegrityFailed = "INTEGRITY_FAILED" // Integrity check failed
+	StatusIntegrityFailed = "INTEGRITY_FAILED" // Integrity check failed (deprecated, use REJECTED)
+	StatusRejected        = "REJECTED"         // Integrity check failed, cannot proceed to legal
 	StatusUnderReview     = "UNDER_REVIEW"     // Legal team reviewing
 	StatusReviewed        = "REVIEWED"         // Legal review complete
 	StatusExported        = "EXPORTED"         // Exported for court proceedings
@@ -184,4 +190,56 @@ type HistoryEntry struct {
 type EvidenceHistory struct {
 	EvidenceID string          `json:"evidenceId"`
 	History    []*HistoryEntry `json:"history"`
+}
+
+// =============================================================================
+// Notification System Models (Whistleblower PDC)
+// =============================================================================
+
+// Notification stores messages to anonymous whistleblowers (WhistleblowerOrg PDC)
+// Addressed by public key hash - nobody knows who holds the corresponding private key
+type Notification struct {
+	DocType        string `json:"docType"`        // "notification"
+	NotificationID string `json:"notificationId"` // Unique identifier
+	EvidenceID     string `json:"evidenceId"`     // Related evidence
+	PublicKeyHash  string `json:"publicKeyHash"`  // Recipient identifier (anonymous)
+	MessageType    string `json:"messageType"`    // Type of notification
+	Message        string `json:"message"`        // Human-readable message
+	FromOrg        string `json:"fromOrg"`        // Organization sending the notification
+	Timestamp      int64  `json:"timestamp"`      // When notification was created
+	Read           bool   `json:"read"`           // Whether whistleblower has read it
+}
+
+// Notification Type Constants
+const (
+	NotifyRejection     = "REJECTION"      // Evidence rejected due to integrity failure
+	NotifyHashFailure   = "HASH_FAILURE"   // Hash mismatch detected during legal review
+	NotifyVerified      = "VERIFIED"       // Evidence successfully verified
+	NotifyReviewed      = "REVIEWED"       // Legal review completed
+	NotifyExported      = "EXPORTED"       // Evidence exported for court
+	NotifyComment       = "COMMENT"        // Comment added by legal team
+)
+
+// =============================================================================
+// Pseudonymous Reputation Models
+// =============================================================================
+
+// Reputation tracks trust score for anonymous whistleblowers by public key hash
+type Reputation struct {
+	DocType                string `json:"docType"`                // "reputation"
+	PublicKeyHash          string `json:"publicKeyHash"`          // Anonymous identifier
+	TotalSubmissions       int    `json:"totalSubmissions"`       // Number of submissions
+	VerifiedSubmissions    int    `json:"verifiedSubmissions"`    // Submissions that passed verification
+	RejectedSubmissions    int    `json:"rejectedSubmissions"`    // Submissions that failed verification
+	ExportedSubmissions    int    `json:"exportedSubmissions"`    // Submissions that reached court export
+	TrustScore             int    `json:"trustScore"`             // Calculated trust score (0-100)
+	FirstSubmissionAt      int64  `json:"firstSubmissionAt"`      // Timestamp of first submission
+	LastSubmissionAt       int64  `json:"lastSubmissionAt"`       // Timestamp of last submission
+	LastUpdatedAt          int64  `json:"lastUpdatedAt"`          // When reputation was last updated
+}
+
+// NotificationQueryResult holds notification query results
+type NotificationQueryResult struct {
+	Notifications []*Notification `json:"notifications"`
+	Count         int             `json:"count"`
 }

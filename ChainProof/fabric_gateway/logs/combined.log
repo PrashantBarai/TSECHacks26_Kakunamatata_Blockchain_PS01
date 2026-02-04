@@ -1,0 +1,244 @@
+2026-02-05 03:49:30 [INFO]: ╔═══════════════════════════════════════════════════════════╗
+2026-02-05 03:49:30 [INFO]: ║        Enrolling Admin Identities for All Orgs            ║
+2026-02-05 03:49:30 [INFO]: ╚═══════════════════════════════════════════════════════════╝
+2026-02-05 03:49:30 [INFO]: 
+Enrolling WhistleblowersOrg...
+2026-02-05 03:49:30 [INFO]: Enrolling admin for WhistleblowersOrg...
+2026-02-05 03:49:30 [ERROR]: Failed to enroll admin for WhistleblowersOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'WhistleblowersOrgCA' does not exist" } ]]
+2026-02-05 03:49:30 [ERROR]: ✗ Failed to enroll WhistleblowersOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'WhistleblowersOrgCA' does not exist" } ]]
+2026-02-05 03:49:30 [INFO]: 
+Enrolling VerifierOrg...
+2026-02-05 03:49:30 [INFO]: Enrolling admin for VerifierOrg...
+2026-02-05 03:49:31 [ERROR]: Failed to enroll admin for VerifierOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'VerifierOrgCA' does not exist" } ]]
+2026-02-05 03:49:31 [ERROR]: ✗ Failed to enroll VerifierOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'VerifierOrgCA' does not exist" } ]]
+2026-02-05 03:49:31 [INFO]: 
+Enrolling LegalOrg...
+2026-02-05 03:49:31 [INFO]: Enrolling admin for LegalOrg...
+2026-02-05 03:49:31 [ERROR]: Failed to enroll admin for LegalOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'LegalOrgCA' does not exist" } ]]
+2026-02-05 04:04:01 [INFO]: ╔═══════════════════════════════════════════════════════════╗
+2026-02-05 04:04:01 [INFO]: ║     Extracting Identities from Microfab                   ║
+2026-02-05 04:04:01 [INFO]: ╚═══════════════════════════════════════════════════════════╝
+2026-02-05 04:04:01 [INFO]: Fetching components from Microfab...
+2026-02-05 04:04:01 [INFO]: Found 17 components
+2026-02-05 04:04:01 [INFO]: ✓ Extracted and saved WhistleblowersOrg admin identity
+2026-02-05 04:04:01 [INFO]: ✓ Extracted and saved VerifierOrg admin identity
+2026-02-05 04:04:01 [INFO]: ✓ Extracted and saved LegalOrg admin identity
+2026-02-05 04:04:01 [INFO]: 
+2026-02-05 04:04:01 [INFO]: ╔═══════════════════════════════════════════════════════════╗
+2026-02-05 04:04:01 [INFO]: ║              Identity Extraction Complete                  ║
+2026-02-05 04:04:01 [INFO]: ╚═══════════════════════════════════════════════════════════╝
+2026-02-05 04:04:01 [INFO]: Wallet contains: LegalOrg-admin, VerifierOrg-admin, WhistleblowersOrg-admin
+2026-02-05 04:04:19 [INFO]: Connecting to Fabric network...
+2026-02-05 04:04:20 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:04:20 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:04:20 [INFO]: 
+╔═══════════════════════════════════════════════════════════╗
+║         ChainProof Fabric Gateway Service                 ║
+╠═══════════════════════════════════════════════════════════╣
+║  Port:      5000                                           ║
+║  Channel:   chainproof-channel                        ║
+║  Chaincode: chainproof                                ║
+║  Org:       WhistleblowersOrg                         ║
+╚═══════════════════════════════════════════════════════════╝
+            
+2026-02-05 04:08:45 [INFO]: Connecting to Fabric network...
+2026-02-05 04:08:45 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:08:45 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:08:45 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:08:45 [INFO]: 
+╔═══════════════════════════════════════════════════════════╗
+║         ChainProof Fabric Gateway Service                 ║
+╠═══════════════════════════════════════════════════════════╣
+║  Port:      5000                                           ║
+║  Channel:   chainproof-channel                        ║
+║  Chaincode: chainproof                                ║
+║  Org:       WhistleblowersOrg                         ║
+╚═══════════════════════════════════════════════════════════╝
+            
+2026-02-05 04:10:43 [INFO]: Connecting to Fabric network...
+2026-02-05 04:10:43 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:10:43 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:10:43 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:10:43 [INFO]: 
+╔═══════════════════════════════════════════════════════════╗
+║         ChainProof Fabric Gateway Service                 ║
+╠═══════════════════════════════════════════════════════════╣
+║  Port:      5000                                           ║
+║  Channel:   chainproof-channel                        ║
+║  Chaincode: chainproof                                ║
+║  Org:       WhistleblowersOrg                         ║
+╚═══════════════════════════════════════════════════════════╝
+            
+2026-02-05 04:11:01 [INFO]: Shutting down...
+2026-02-05 04:11:16 [INFO]: Connecting to Fabric network...
+2026-02-05 04:11:16 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:11:16 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:11:16 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/whistleblowersorggateway.json
+2026-02-05 04:11:17 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:11:17 [INFO]: 
+╔═══════════════════════════════════════════════════════════╗
+║         ChainProof Fabric Gateway Service                 ║
+╠═══════════════════════════════════════════════════════════╣
+║  Port:      5000                                           ║
+║  Channel:   chainproof-channel                        ║
+║  Chaincode: chainproof                                ║
+║  Org:       WhistleblowersOrg                         ║
+╚═══════════════════════════════════════════════════════════╝
+            
+2026-02-05 04:12:04 [INFO]: Shutting down...
+2026-02-05 04:12:08 [INFO]: Connecting to Fabric network...
+2026-02-05 04:12:08 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:12:08 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:12:08 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/whistleblowersorggateway.json
+2026-02-05 04:12:08 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:12:08 [INFO]: 
+╔═══════════════════════════════════════════════════════════╗
+║         ChainProof Fabric Gateway Service                 ║
+╠═══════════════════════════════════════════════════════════╣
+║  Port:      5000                                           ║
+║  Channel:   chainproof-channel                        ║
+║  Chaincode: chainproof                                ║
+║  Org:       WhistleblowersOrg                         ║
+╚═══════════════════════════════════════════════════════════╝
+            
+2026-02-05 04:22:37 [INFO]: Submitting evidence: EVD-9ACEAE6A
+2026-02-05 04:22:37 [INFO]: Submitting: whistleblower:SubmitEvidence(EVD-9ACEAE6A, QmS5UsF1wex9p75uV8Yyp3YYmqkkhWcZFA1H7NUdFp8uj8, 9b806997c110251c98c1080d2d5975bf105558c0612b53729b4c69ba2838ccd2, application/pdf, 8025263, financial_fraud, 393879a57b723dd009d18b627356825428e04f465eb3e0b8dc418436043adfc6, pk+OqBAeeUtEf6E70/queXk+kWtcCJ3mX8P/bqLksEGXu86Gkwen+RXSaHqYhzRdxsC183tHDNsfuztCYZ7Ogg==)
+2026-02-05 04:24:55 [INFO]: Shutting down...
+2026-02-05 04:24:59 [INFO]: Connecting to Fabric network...
+2026-02-05 04:24:59 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:24:59 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:24:59 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/whistleblowersorggateway.json
+2026-02-05 04:25:00 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:25:00 [INFO]: 
+╔═══════════════════════════════════════════════════════════╗
+║         ChainProof Fabric Gateway Service                 ║
+╠═══════════════════════════════════════════════════════════╣
+║  Port:      5000                                           ║
+║  Channel:   chainproof-channel                        ║
+║  Chaincode: chainproof                                ║
+║  Org:       WhistleblowersOrg                         ║
+╚═══════════════════════════════════════════════════════════╝
+            
+2026-02-05 04:26:44 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 04:26:44 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 04:28:46 [INFO]: Connecting to Fabric network...
+2026-02-05 04:28:46 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:28:46 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:28:46 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/whistleblowersorggateway.json
+2026-02-05 04:28:47 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:29:34 [INFO]: Shutting down...
+2026-02-05 04:29:37 [INFO]: Connecting to Fabric network...
+2026-02-05 04:29:37 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:29:37 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:29:37 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/whistleblowersorggateway.json
+2026-02-05 04:29:37 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:29:37 [INFO]: 
+╔═══════════════════════════════════════════════════════════╗
+║         ChainProof Fabric Gateway Service                 ║
+╠═══════════════════════════════════════════════════════════╣
+║  Port:      5000                                           ║
+║  Channel:   chainproof-channel                        ║
+║  Chaincode: chainproof                                ║
+║  Org:       WhistleblowersOrg                         ║
+╚═══════════════════════════════════════════════════════════╝
+            
+2026-02-05 04:30:03 [INFO]: Gateway connection closed
+2026-02-05 04:30:03 [INFO]: Initializing Fabric Gateway for VerifierOrg...
+2026-02-05 04:30:03 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/VerifierOrg/verifierorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:30:03 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/verifierorggateway.json
+2026-02-05 04:30:03 [INFO]: Connected to Fabric as VerifierOrg
+2026-02-05 04:30:03 [INFO]: Switched to organization: VerifierOrg
+2026-02-05 04:33:42 [INFO]: Shutting down...
+2026-02-05 04:33:47 [INFO]: Connecting to Fabric network...
+2026-02-05 04:33:47 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:33:47 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:33:47 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/whistleblowersorggateway.json
+2026-02-05 04:33:47 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:33:47 [INFO]: 
+╔═══════════════════════════════════════════════════════════╗
+║         ChainProof Fabric Gateway Service                 ║
+╠═══════════════════════════════════════════════════════════╣
+║  Port:      5000                                           ║
+║  Channel:   chainproof-channel                        ║
+║  Chaincode: chainproof                                ║
+║  Org:       WhistleblowersOrg                         ║
+╚═══════════════════════════════════════════════════════════╝
+            
+2026-02-05 04:34:13 [INFO]: Gateway connection closed
+2026-02-05 04:34:13 [INFO]: Initializing Fabric Gateway for VerifierOrg...
+2026-02-05 04:34:13 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/VerifierOrg/verifierorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:34:13 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/verifierorggateway.json
+2026-02-05 04:34:14 [INFO]: Connected to Fabric as VerifierOrg
+2026-02-05 04:34:14 [INFO]: Switched to organization: VerifierOrg
+2026-02-05 04:35:56 [INFO]: Gateway connection closed
+2026-02-05 04:35:56 [INFO]: Initializing Fabric Gateway for VerifierOrg...
+2026-02-05 04:35:56 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/VerifierOrg/verifierorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:35:56 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/verifierorggateway.json
+2026-02-05 04:35:58 [INFO]: Connected to Fabric as VerifierOrg
+2026-02-05 04:35:58 [INFO]: Switched to organization: VerifierOrg
+2026-02-05 04:36:20 [INFO]: Gateway connection closed
+2026-02-05 04:36:20 [INFO]: Initializing Fabric Gateway for VerifierOrg...
+2026-02-05 04:36:20 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/VerifierOrg/verifierorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:36:20 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/verifierorggateway.json
+2026-02-05 04:36:20 [INFO]: Connected to Fabric as VerifierOrg
+2026-02-05 04:36:20 [INFO]: Switched to organization: VerifierOrg
+2026-02-05 04:36:43 [INFO]: Gateway connection closed
+2026-02-05 04:36:43 [INFO]: Initializing Fabric Gateway for LegalOrg...
+2026-02-05 04:36:43 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/LegalOrg/legalorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:36:43 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/legalorggateway.json
+2026-02-05 04:36:43 [INFO]: Connected to Fabric as LegalOrg
+2026-02-05 04:36:43 [INFO]: Switched to organization: LegalOrg
+2026-02-05 04:36:45 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.records: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
+    at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:309:24
+2026-02-05 04:36:45 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.records: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
+    at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:309:24
+2026-02-05 04:37:05 [INFO]: Gateway connection closed
+2026-02-05 04:37:05 [INFO]: Initializing Fabric Gateway for VerifierOrg...
+2026-02-05 04:37:05 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/VerifierOrg/verifierorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:37:05 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/verifierorggateway.json
+2026-02-05 04:37:05 [INFO]: Connected to Fabric as VerifierOrg
+2026-02-05 04:37:05 [INFO]: Switched to organization: VerifierOrg
+2026-02-05 04:37:32 [INFO]: Gateway connection closed
+2026-02-05 04:37:32 [INFO]: Initializing Fabric Gateway for WhistleblowersOrg...
+2026-02-05 04:37:32 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:37:32 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/whistleblowersorggateway.json
+2026-02-05 04:37:32 [INFO]: Connected to Fabric as WhistleblowersOrg
+2026-02-05 04:37:32 [INFO]: Switched to organization: WhistleblowersOrg
+2026-02-05 04:37:51 [INFO]: Gateway connection closed
+2026-02-05 04:37:51 [INFO]: Initializing Fabric Gateway for VerifierOrg...
+2026-02-05 04:37:51 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/VerifierOrg/verifierorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:37:51 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/verifierorggateway.json
+2026-02-05 04:37:51 [INFO]: Connected to Fabric as VerifierOrg
+2026-02-05 04:37:51 [INFO]: Switched to organization: VerifierOrg
+2026-02-05 04:39:35 [INFO]: Gateway connection closed
+2026-02-05 04:39:35 [INFO]: Initializing Fabric Gateway for VerifierOrg...
+2026-02-05 04:39:35 [INFO]: Loaded identity from local MSP: /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_msp/VerifierOrg/verifierorgadmin/msp/signcerts/cert.pem
+2026-02-05 04:39:35 [INFO]: Loaded connection profile from /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/_gateways/verifierorggateway.json
+2026-02-05 04:39:36 [INFO]: Connected to Fabric as VerifierOrg
+2026-02-05 04:39:36 [INFO]: Switched to organization: VerifierOrg

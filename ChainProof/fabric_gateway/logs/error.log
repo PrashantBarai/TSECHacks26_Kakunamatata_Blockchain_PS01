@@ -1,0 +1,37 @@
+2026-02-05 03:49:30 [ERROR]: Failed to enroll admin for WhistleblowersOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'WhistleblowersOrgCA' does not exist" } ]]
+2026-02-05 03:49:30 [ERROR]: ✗ Failed to enroll WhistleblowersOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'WhistleblowersOrgCA' does not exist" } ]]
+2026-02-05 03:49:31 [ERROR]: Failed to enroll admin for VerifierOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'VerifierOrgCA' does not exist" } ]]
+2026-02-05 03:49:31 [ERROR]: ✗ Failed to enroll VerifierOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'VerifierOrgCA' does not exist" } ]]
+2026-02-05 03:49:31 [ERROR]: Failed to enroll admin for LegalOrg: fabric-ca request enroll failed with errors [[ { code: 19, message: "CA 'LegalOrgCA' does not exist" } ]]
+2026-02-05 04:26:44 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 04:26:44 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 04:36:45 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.records: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
+    at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:309:24
+2026-02-05 04:36:45 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.records: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
+    at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:309:24

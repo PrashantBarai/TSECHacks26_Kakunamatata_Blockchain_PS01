@@ -33,14 +33,19 @@ export CC_NAME="chainproof"
 source ./deploy_chaincode.sh switch whistleblower
 ```
 
-### 2.1 Submit Single Evidence
+### 2.1 Submit Single Evidence (with Pseudonymous Identity)
 *Function: `WhistleblowerContract:SubmitEvidence`*
+*New parameters: `publicKeyHash` (SHA256 of user's public key) and `signature` (signed file hash)*
 
 ```bash
+# Example publicKeyHash - in real usage, this comes from client-side keypair
+export PUBLIC_KEY_HASH="a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456"
+export SIGNATURE="MEUCIQDbase64signaturehere..."
+
 peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
   --channelID chainproof-channel -n chainproof \
   --peerAddresses whistleblowersorgpeer-api.127-0-0-1.nip.io:7070 \
-  -c '{"function":"WhistleblowerContract:SubmitEvidence","Args":["EVD101","QmHash123","fileHashABC","pdf","1024","corruption"]}'
+  -c "{\"function\":\"WhistleblowerContract:SubmitEvidence\",\"Args\":[\"EVD101\",\"QmHash123\",\"fileHashABC\",\"pdf\",\"1024\",\"corruption\",\"$PUBLIC_KEY_HASH\",\"$SIGNATURE\"]}"
 ```
 
 ### 2.2 Submit Bulk Evidence
@@ -75,6 +80,39 @@ peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
   -c '{"function":"WhistleblowerContract:UpdatePolygonAnchor","Args":["EVD101","0xPolygonTxHash123"]}'
 ```
 
+### 2.5 Get Notifications (NEW)
+*Function: `WhistleblowerContract:GetNotifications`*
+*Retrieves all notifications for a given publicKeyHash (verification results, rejections, etc.)*
+
+```bash
+# Use the same publicKeyHash from submission
+peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  -c "{\"function\":\"WhistleblowerContract:GetNotifications\",\"Args\":[\"$PUBLIC_KEY_HASH\"]}"
+```
+
+### 2.6 Get Reputation Score (NEW)
+*Function: `WhistleblowerContract:GetReputation`*
+*Returns trust score and submission statistics for a publicKeyHash*
+
+```bash
+peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  -c "{\"function\":\"WhistleblowerContract:GetReputation\",\"Args\":[\"$PUBLIC_KEY_HASH\"]}"
+```
+
+### 2.7 Mark Notification Read (NEW)
+*Function: `WhistleblowerContract:MarkNotificationRead`*
+*Marks a specific notification as read*
+
+```bash
+# Replace NOTIF_ID with actual notification ID from GetNotifications
+peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  --peerAddresses whistleblowersorgpeer-api.127-0-0-1.nip.io:7070 \
+  -c '{"function":"WhistleblowerContract:MarkNotificationRead","Args":["notif_EVD101_1234567890"]}'
+```
+
 ---
 
 ## 3. Verifier Workflow (Integrity Check)
@@ -84,15 +122,28 @@ peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
 source ./deploy_chaincode.sh switch verifier
 ```
 
-### 3.1 Verify Integrity
+### 3.1 Verify Integrity (Pass)
 *Function: `VerifierContract:VerifyIntegrity`*
-*Note: Pass `true` if hashes match, `false` otherwise.*
+*Args: `evidenceId`, `computedHash`, `passed` (bool), `rejectionComment` (empty for pass)*
 
 ```bash
+# Successful verification - hashes match
 peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
   --channelID chainproof-channel -n chainproof \
   --peerAddresses verifierorgpeer-api.127-0-0-1.nip.io:7070 \
-  -c '{"function":"VerifierContract:VerifyIntegrity","Args":["EVD101","fileHashABC","true"]}'
+  -c '{"function":"VerifierContract:VerifyIntegrity","Args":["EVD101","fileHashABC","true",""]}'
+```
+
+### 3.1b Verify Integrity (FAIL - Rejection)
+*If hashes don't match, evidence is REJECTED and whistleblower is notified*
+*⚠️ `rejectionComment` is REQUIRED when `passed=false`*
+
+```bash
+# Failed verification - evidence will be REJECTED (does NOT go to Legal)
+peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  --peerAddresses verifierorgpeer-api.127-0-0-1.nip.io:7070 \
+  -c '{"function":"VerifierContract:VerifyIntegrity","Args":["EVD102","wrongHash","false","Computed hash does not match stored hash. File may have been altered."]}'
 ```
 
 ### 3.2 Add Verification Note (Private Data)
@@ -211,4 +262,97 @@ peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
 peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
   --channelID chainproof-channel -n chainproof \
   -c '{"function":"QueryContract:QueryEvidenceByStatus","Args":["EXPORTED","10",""]}'
+```
+
+### 5.4 Query Rejected Evidence (NEW)
+*Check all evidence that failed verification*
+
+```bash
+peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  -c '{"function":"QueryContract:QueryEvidenceByStatus","Args":["REJECTED","10",""]}'
+```
+
+---
+
+## 6. Complete Flow Testing (NEW)
+
+This section demonstrates the complete flow including the new pseudonymous identity and rejection notification features.
+
+### 6.1 Happy Path: Submit → Verify → Review → Export
+
+```bash
+# Step 1: Set up identity
+export PUBLIC_KEY_HASH="testuser123456789abcdef"
+export SIGNATURE="testSignature"
+
+# Step 2: Submit as Whistleblower
+source ./deploy_chaincode.sh switch whistleblower
+peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  --peerAddresses whistleblowersorgpeer-api.127-0-0-1.nip.io:7070 \
+  -c "{\"function\":\"WhistleblowerContract:SubmitEvidence\",\"Args\":[\"EVD-FLOW-1\",\"QmTestCid\",\"correctHashABC\",\"pdf\",\"1024\",\"corruption\",\"$PUBLIC_KEY_HASH\",\"$SIGNATURE\"]}"
+
+# Step 3: Verify as Verifier (PASS)
+source ./deploy_chaincode.sh switch verifier
+peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  --peerAddresses verifierorgpeer-api.127-0-0-1.nip.io:7070 \
+  -c '{"function":"VerifierContract:VerifyIntegrity","Args":["EVD-FLOW-1","correctHashABC","true",""]}'
+
+# Step 4: Check notification was sent
+source ./deploy_chaincode.sh switch whistleblower
+peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  -c "{\"function\":\"WhistleblowerContract:GetNotifications\",\"Args\":[\"$PUBLIC_KEY_HASH\"]}"
+
+# Step 5: Review as Legal
+source ./deploy_chaincode.sh switch legal
+peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  --peerAddresses legalorgpeer-api.127-0-0-1.nip.io:7070 \
+  -c '{"function":"LegalContract:ReviewEvidence","Args":["EVD-FLOW-1","true"]}'
+
+# Step 6: Check reputation increase
+source ./deploy_chaincode.sh switch whistleblower
+peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  -c "{\"function\":\"WhistleblowerContract:GetReputation\",\"Args\":[\"$PUBLIC_KEY_HASH\"]}"
+```
+
+### 6.2 Rejection Path: Submit → Fail Verification → Notification
+
+```bash
+# Step 1: Submit evidence with wrong hash
+source ./deploy_chaincode.sh switch whistleblower
+peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  --peerAddresses whistleblowersorgpeer-api.127-0-0-1.nip.io:7070 \
+  -c "{\"function\":\"WhistleblowerContract:SubmitEvidence\",\"Args\":[\"EVD-REJECT-1\",\"QmBadCid\",\"claimedHashXYZ\",\"pdf\",\"1024\",\"fraud\",\"$PUBLIC_KEY_HASH\",\"$SIGNATURE\"]}"
+
+# Step 2: Verifier finds hash mismatch → REJECT
+source ./deploy_chaincode.sh switch verifier
+peer chaincode invoke -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  --peerAddresses verifierorgpeer-api.127-0-0-1.nip.io:7070 \
+  -c '{"function":"VerifierContract:VerifyIntegrity","Args":["EVD-REJECT-1","actualHashDifferent","false","File hash mismatch detected. Claimed: claimedHashXYZ, Actual: actualHashDifferent. Evidence may be corrupted."]}'
+
+# Step 3: Evidence should now be REJECTED (not proceed to Legal)
+peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  -c '{"function":"QueryContract:GetEvidence","Args":["EVD-REJECT-1"]}'
+# Expected: status=REJECTED, integrityStatus=FAILED, rejectionComment populated
+
+# Step 4: Whistleblower receives rejection notification
+source ./deploy_chaincode.sh switch whistleblower
+peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  -c "{\"function\":\"WhistleblowerContract:GetNotifications\",\"Args\":[\"$PUBLIC_KEY_HASH\"]}"
+# Expected: notification with type=REJECTION and the rejection message
+
+# Step 5: Check reputation decreased
+peer chaincode query -o orderer-api.127-0-0-1.nip.io:7070 \
+  --channelID chainproof-channel -n chainproof \
+  -c "{\"function\":\"WhistleblowerContract:GetReputation\",\"Args\":[\"$PUBLIC_KEY_HASH\"]}"
+# Expected: rejectedSubmissions increased, trustScore decreased
 ```

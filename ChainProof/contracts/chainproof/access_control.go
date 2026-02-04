@@ -22,8 +22,9 @@ const (
 
 // Private Data Collection Names
 const (
-	VerifierPrivateCollection = "VerifierPrivateCollection"
-	LegalPrivateCollection    = "LegalPrivateCollection"
+	WhistleblowerPrivateCollection = "WhistleblowerPrivateCollection" // Notifications + Reputation
+	VerifierPrivateCollection      = "VerifierPrivateCollection"      // Technical notes
+	LegalPrivateCollection         = "LegalPrivateCollection"         // Legal comments
 )
 
 // GetClientOrgID returns the MSP ID of the calling client
