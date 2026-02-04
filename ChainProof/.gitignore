@@ -17,6 +17,8 @@ _wallets/
 _gateways/
 _msp/
 wallets/
+wallet/
+fabric_gateway/wallet/
 msp/
 keystore/
 connection-profile*.yaml
