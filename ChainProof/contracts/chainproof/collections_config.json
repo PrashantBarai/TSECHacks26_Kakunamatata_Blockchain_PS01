@@ -1,0 +1,26 @@
+[
+    {
+        "name": "VerifierPrivateCollection",
+        "policy": "OR('VerifierOrgMSP.member')",
+        "requiredPeerCount": 0,
+        "maxPeerCount": 1,
+        "blockToLive": 0,
+        "memberOnlyRead": true,
+        "memberOnlyWrite": true,
+        "endorsementPolicy": {
+            "signaturePolicy": "OR('VerifierOrgMSP.member')"
+        }
+    },
+    {
+        "name": "LegalPrivateCollection",
+        "policy": "OR('LegalOrgMSP.member')",
+        "requiredPeerCount": 0,
+        "maxPeerCount": 1,
+        "blockToLive": 0,
+        "memberOnlyRead": true,
+        "memberOnlyWrite": true,
+        "endorsementPolicy": {
+            "signaturePolicy": "OR('LegalOrgMSP.member')"
+        }
+    }
+]

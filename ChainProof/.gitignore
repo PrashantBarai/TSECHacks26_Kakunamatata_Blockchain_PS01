@@ -1,0 +1,100 @@
+# =========================
+# Chaincode & Fabric
+# =========================
+# Binaries and Build Artifacts
+bin/
+build/
+*.tar.gz
+
+# Go
+vendor/
+# go.sum is usually committed, so not ignoring it
+
+# Hyperledger Fabric / MicroFab generated files
+_wallets/
+_gateways/
+_msp/
+wallets/
+msp/
+keystore/
+connection-profile*.yaml
+connection-profile*.json
+
+# =========================
+# Backend (Node.js / Go)
+# =========================
+# Dependencies
+backend/node_modules/
+backend/vendor/
+
+# Environment Variables
+backend/.env
+backend/.env.*
+
+# Logs
+backend/logs/
+backend/*.log
+backend/npm-debug.log
+backend/yarn-error.log
+
+# Build
+backend/dist/
+backend/coverage/
+
+# =========================
+# Frontend (React / Next.js)
+# =========================
+# Dependencies
+frontend/node_modules/
+
+# Next.js build output
+frontend/.next/
+frontend/out/
+
+# Production build
+frontend/build/
+frontend/dist/
+
+# Environment Variables
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Debug logs
+frontend/npm-debug.log
+frontend/yarn-error.log
+frontend/yarn-debug.log
+
+# =========================
+# General / System
+# =========================
+# IDE configurations
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Docker
+docker-compose.override.yml
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+
+# System
+.DS_Store
+Thumbs.db

@@ -1,0 +1,38 @@
+{
+  "port": 7070,
+  "endorsing_organizations": [
+    {
+      "name": "WhistleblowersOrg",
+      "peers": [
+        {
+          "name": "peer0",
+          "stateDatabase": "couchdb"
+        }
+      ]
+    },
+    {
+      "name": "VerifierOrg",
+      "peers": [
+        {
+          "name": "peer0",
+          "stateDatabase": "couchdb"
+        }
+      ]
+    },
+    {
+      "name": "LegalOrg",
+      "peers": [
+        {
+          "name": "peer0",
+          "stateDatabase": "couchdb"
+        }
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "name": "chainproof-channel",
+      "endorsing_organizations": ["WhistleblowersOrg", "VerifierOrg", "LegalOrg"]
+    }
+  ]
+}
