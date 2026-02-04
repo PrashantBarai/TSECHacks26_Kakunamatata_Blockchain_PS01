@@ -23,31 +23,31 @@ const config = {
     // Base paths
     mspBasePath,
     gatewaysBasePath,
+    walletsBasePath: path.join(projectRoot, '_wallets'),
 
     // Organizations with local paths
     orgs: {
         WhistleblowersOrg: {
             mspId: 'WhistleblowersOrgMSP',
             peerEndpoint: 'grpc://whistleblowersorgpeer-api.127-0-0-1.nip.io:7070',
-            // Connection profile from _gateways
             connectionProfilePath: path.join(gatewaysBasePath, 'whistleblowersorggateway.json'),
-            // MSP credentials
-            certPath: path.join(mspBasePath, 'WhistleblowersOrg/whistleblowersorgadmin/msp/signcerts/cert.pem'),
-            keyPath: path.join(mspBasePath, 'WhistleblowersOrg/whistleblowersorgadmin/msp/keystore/cert_sk')
+            // Direct wallet path
+            walletPath: path.join(projectRoot, '_wallets', 'WhistleblowersOrg'),
+            identityName: 'whistleblowersorgadmin'
         },
         VerifierOrg: {
             mspId: 'VerifierOrgMSP',
             peerEndpoint: 'grpc://verifierorgpeer-api.127-0-0-1.nip.io:7070',
             connectionProfilePath: path.join(gatewaysBasePath, 'verifierorggateway.json'),
-            certPath: path.join(mspBasePath, 'VerifierOrg/verifierorgadmin/msp/signcerts/cert.pem'),
-            keyPath: path.join(mspBasePath, 'VerifierOrg/verifierorgadmin/msp/keystore/cert_sk')
+            walletPath: path.join(projectRoot, '_wallets', 'VerifierOrg'),
+            identityName: 'verifierorgadmin'
         },
         LegalOrg: {
             mspId: 'LegalOrgMSP',
             peerEndpoint: 'grpc://legalorgpeer-api.127-0-0-1.nip.io:7070',
             connectionProfilePath: path.join(gatewaysBasePath, 'legalorggateway.json'),
-            certPath: path.join(mspBasePath, 'LegalOrg/legalorgadmin/msp/signcerts/cert.pem'),
-            keyPath: path.join(mspBasePath, 'LegalOrg/legalorgadmin/msp/keystore/cert_sk')
+            walletPath: path.join(projectRoot, '_wallets', 'LegalOrg'),
+            identityName: 'legalorgadmin'
         }
     },
 

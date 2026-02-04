@@ -115,33 +115,27 @@ function getConnectionProfile(orgName) {
 }
 
 /**
- * Load identity from local MSP files
+ * Load identity from local wallet file (JSON)
  */
-async function loadIdentityFromMSP(orgName) {
+async function loadIdentityFromWallet(orgName) {
     const org = config.orgs[orgName];
     if (!org) {
         throw new Error(`Unknown organization: ${orgName}`);
     }
 
-    // Read cert and key from local MSP files
-    if (!fs.existsSync(org.certPath)) {
-        throw new Error(`Certificate not found: ${org.certPath}`);
-    }
-    if (!fs.existsSync(org.keyPath)) {
-        throw new Error(`Private key not found: ${org.keyPath}`);
+    const walletPath = org.walletPath;
+    const identityName = org.identityName;
+    const identityFile = path.join(walletPath, `${identityName}.id`);
+
+    // Read identity from JSON file
+    if (!fs.existsSync(identityFile)) {
+        throw new Error(`Identity file not found: ${identityFile}`);
     }
 
-    const cert = fs.readFileSync(org.certPath, 'utf8');
-    const key = fs.readFileSync(org.keyPath, 'utf8');
+    const identityContent = fs.readFileSync(identityFile, 'utf8');
+    const identity = JSON.parse(identityContent);
 
-    return {
-        credentials: {
-            certificate: cert,
-            privateKey: key
-        },
-        mspId: org.mspId,
-        type: 'X.509'
-    };
+    return identity;
 }
 
 /**
@@ -160,13 +154,13 @@ async function initializeGateway(orgName = null) {
     logger.info(`Initializing Fabric Gateway for ${currentOrg}...`);
 
     try {
-        // Create in-memory wallet with identity from local MSP
+        // Create in-memory wallet with identity from local JSON file
         const wallet = await Wallets.newInMemoryWallet();
-        const identity = await loadIdentityFromMSP(currentOrg);
+        const identity = await loadIdentityFromWallet(currentOrg);
         const identityLabel = `${currentOrg}-admin`;
 
         await wallet.put(identityLabel, identity);
-        logger.info(`Loaded identity from local MSP: ${org.certPath}`);
+        logger.info(`Loaded identity from wallet: ${org.walletPath}/${org.identityName}.id`);
 
         // Build connection profile
         const connectionProfile = getConnectionProfile(currentOrg);
