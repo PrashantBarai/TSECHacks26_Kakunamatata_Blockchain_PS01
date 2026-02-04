@@ -4,6 +4,8 @@
 # Binaries and Build Artifacts
 bin/
 build/
+builders/
+config/
 *.tar.gz
 
 # Go
