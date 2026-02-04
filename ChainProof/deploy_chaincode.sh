@@ -15,6 +15,9 @@
 # 2. Generate wallets/gateways/MSP:
 #    curl -s http://console.127-0-0-1.nip.io:7070/ak/api/v1/components | weft microfab -w ./_wallets -p ./_gateways -m ./_msp -f
 #
+# 3. Install Fabric binaries (peer, configtxgen, etc.):
+#    curl -sSL https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh | bash -s -- binary
+#
 # ┌───────────────────────────────────────────────────────────────────────────┐
 # │                         AVAILABLE COMMANDS                                 │
 # └───────────────────────────────────────────────────────────────────────────┘

@@ -1,0 +1,10 @@
+{
+    "index": {
+        "fields": [
+            "docType",
+            "submittedAt"
+        ]
+    },
+    "name": "indexEvidenceByDate",
+    "type": "json"
+}
