@@ -1,0 +1,15 @@
+{
+  "name": "x-mock-poster-mvp",
+  "version": "1.0.0",
+  "description": "Mock X (Twitter) auto-poster with countdown - Student learning project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["express", "mock", "countdown", "educational"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
