@@ -17,6 +17,7 @@ type Evidence struct {
 	FileSize        int64        `json:"fileSize"`        // File size in bytes
 	Category        string       `json:"category"`        // Optional: financial_fraud, corruption, abuse, harassment, other
 	SubmittedAt     int64        `json:"submittedAt"`     // Unix timestamp of submission
+	Description     string       `json:"description"`     // User provided description
 	Status          string       `json:"status"`          // Current workflow status
 	PolygonTxHash   string       `json:"polygonTxHash"`   // Public blockchain anchor (optional)
 	PolygonAnchorAt int64        `json:"polygonAnchorAt"` // When anchored to Polygon

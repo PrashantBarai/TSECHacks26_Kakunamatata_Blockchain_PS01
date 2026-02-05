@@ -47,6 +47,7 @@ func (c *WhistleblowerContract) SubmitEvidence(
 	fileType string,
 	fileSize int64,
 	category string,
+	description string,
 	publicKeyHash string,
 	signature string,
 ) error {
@@ -95,6 +96,7 @@ func (c *WhistleblowerContract) SubmitEvidence(
 		FileType:        fileType,
 		FileSize:        fileSize,
 		Category:        category,
+		Description:     description,
 		SubmittedAt:     timestamp,
 		Status:          StatusSubmitted,
 		IntegrityStatus: IntegrityPending,
@@ -298,7 +300,7 @@ func (c *WhistleblowerContract) GetNotifications(
 	}
 	defer resultsIterator.Close()
 
-	var notifications []*Notification
+	notifications := []*Notification{}
 	for resultsIterator.HasNext() {
 		queryResult, err := resultsIterator.Next()
 		if err != nil {
@@ -507,6 +509,54 @@ func updateReputationOnVerify(ctx contractapi.TransactionContextInterface, publi
 	return ctx.GetStub().PutPrivateData(WhistleblowerPrivateCollection, reputationKey, reputationBytes)
 }
 
+// updateReputationOnLegalReview updates reputation after legal review (+3/-3)
+func updateReputationOnLegalReview(ctx contractapi.TransactionContextInterface, publicKeyHash string, verdict string, timestamp int64) error {
+	if publicKeyHash == "" {
+		return nil
+	}
+
+	reputationKey := "reputation_" + publicKeyHash
+	reputationJSON, err := ctx.GetStub().GetPrivateData(WhistleblowerPrivateCollection, reputationKey)
+	if err != nil {
+		return fmt.Errorf("failed to read reputation from PDC: %v", err)
+	}
+
+	var reputation Reputation
+	if reputationJSON == nil {
+		// Create default if missing (handles legacy evidence)
+		reputation = Reputation{
+			DocType:             "reputation",
+			PublicKeyHash:       publicKeyHash,
+			TotalSubmissions:    1,
+			VerifiedSubmissions: 1,
+			RejectedSubmissions: 0,
+			ExportedSubmissions: 0,
+			TrustScore:          50,
+			FirstSubmissionAt:   timestamp,
+			LastSubmissionAt:    timestamp,
+			LastUpdatedAt:       timestamp,
+		}
+	} else {
+		if err := json.Unmarshal(reputationJSON, &reputation); err != nil {
+			return err
+		}
+	}
+
+	if verdict == "TRUE" {
+		reputation.TrustScore = min(100, reputation.TrustScore+3)
+	} else if verdict == "FALSE" {
+		reputation.TrustScore = max(0, reputation.TrustScore-3)
+	}
+
+	reputation.LastUpdatedAt = timestamp
+	reputationBytes, err := json.Marshal(reputation)
+	if err != nil {
+		return err
+	}
+
+	return ctx.GetStub().PutPrivateData(WhistleblowerPrivateCollection, reputationKey, reputationBytes)
+}
+
 // sendNotification creates a notification for the whistleblower
 func sendNotification(ctx contractapi.TransactionContextInterface, publicKeyHash string, evidenceId string, messageType string, message string, fromOrg string, timestamp int64) error {
 	if publicKeyHash == "" {
@@ -658,6 +708,7 @@ func (c *LegalContract) ReviewEvidence(
 	ctx contractapi.TransactionContextInterface,
 	evidenceId string,
 	reviewComplete bool,
+	verdict string,
 ) error {
 	// Access control
 	if err := RequireLegalOrg(ctx); err != nil {
@@ -681,7 +732,12 @@ func (c *LegalContract) ReviewEvidence(
 	if reviewComplete {
 		evidence.Status = StatusReviewed
 		evidence.ReviewedAt = timestamp
-		description = "Legal review completed"
+		description = fmt.Sprintf("Legal review completed. Verdict: %s", verdict)
+
+		// Update reputation based on verdict
+		if err := updateReputationOnLegalReview(ctx, evidence.PublicKeyHash, verdict, timestamp); err != nil {
+			return fmt.Errorf("failed to update reputation: %v", err)
+		}
 	} else {
 		evidence.Status = StatusUnderReview
 		description = "Legal review started"
@@ -756,6 +812,14 @@ func (c *LegalContract) AddLegalComment(
 		Timestamp:   timestamp,
 		Description: "Legal comment added (private)",
 	})
+
+	// Notify whistleblower
+	msgSnippet := content
+	if len(msgSnippet) > 80 {
+		msgSnippet = msgSnippet[:77] + "..."
+	}
+	notificationMsg := fmt.Sprintf("Legal comment added (%s): %s", recommendation, msgSnippet)
+	sendNotification(ctx, evidence.PublicKeyHash, evidenceId, "LEGAL_COMMENT", notificationMsg, callerOrg, timestamp)
 
 	return putEvidence(ctx, evidence)
 }
@@ -1096,7 +1160,7 @@ func getQueryResultWithPagination(
 	}
 	defer resultsIterator.Close()
 
-	var records []*Evidence
+	records := []*Evidence{}
 	for resultsIterator.HasNext() {
 		queryResult, err := resultsIterator.Next()
 		if err != nil {

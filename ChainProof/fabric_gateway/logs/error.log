@@ -35,3 +35,537 @@
     at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:255:20)
     at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
     at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:309:24
+2026-02-05 05:48:15 [ERROR]: Error: error in simulation: failed to execute transaction 590a6afaf6cdcae14401eb5dc8491219173d8796ac85f089e78f6a6e0526467e: invalid invocation: [channel chainproof-channel] failed to get chaincode container info for chainproof: could not get current sequence for chaincode 'chainproof' on channel 'chainproof-channel': could not get state for key namespaces/fields/chainproof/Sequence: number of consumed bytes from DecodeVarint is invalid, expected 1, but got 0
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:264:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 05:48:16 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:264:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 05:55:32 [ERROR]: Evidence submission failed: No valid responses from any peers. Errors:
+    peer=verifierorgpeer-api.127-0-0-1.nip.io:7070, status=500, message=access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+2026-02-05 05:55:32 [ERROR]: Error: No valid responses from any peers. Errors:
+    peer=verifierorgpeer-api.127-0-0-1.nip.io:7070, status=500, message=access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at newEndorsementError (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:77:12)
+    at getResponsePayload (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:45:23)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:258:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:20)
+    at async Object.submitEvidence (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:259:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:70:24
+2026-02-05 06:16:05 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 06:16:05 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 06:19:26 [ERROR]: Evidence submission failed: Cannot read properties of undefined (reading 'toString')
+2026-02-05 06:19:26 [ERROR]: TypeError: Cannot read properties of undefined (reading 'toString')
+    at Endorsement.build (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/Proposal.js:254:35)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:222:21)
+    at ContractImpl.submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/contract.js:210:45)
+    at submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:50)
+    at Object.submitEvidence (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:265:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:70:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+2026-02-05 06:21:12 [ERROR]: Failed to connect to Fabric: Endorser must be connectable
+2026-02-05 06:21:12 [ERROR]: Error: Endorser must be connectable
+    at Channel.addEndorser (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/Channel.js:259:10)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:77:21
+    at Array.forEach (<anonymous>)
+    at buildChannel (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:75:19)
+    at Object.loadFromConfig (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:60:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Gateway.connect (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/gateway.js:303:13)
+    at async initializeGateway (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:171:9)
+    at async Object.switchOrg (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:201:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:42:9
+2026-02-05 06:21:12 [ERROR]: Error: Contract not found: query
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:309:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)
+2026-02-05 06:21:12 [ERROR]: Error: Contract not found: query
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:309:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)
+2026-02-05 06:21:22 [ERROR]: Failed to connect to Fabric: Endorser must be connectable
+2026-02-05 06:21:22 [ERROR]: Error: Endorser must be connectable
+    at Channel.addEndorser (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/Channel.js:259:10)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:77:21
+    at Array.forEach (<anonymous>)
+    at buildChannel (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:75:19)
+    at Object.loadFromConfig (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:60:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Gateway.connect (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/gateway.js:303:13)
+    at async initializeGateway (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:171:9)
+    at async Object.switchOrg (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:201:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:42:9
+2026-02-05 06:27:44 [ERROR]: Failed to connect to Fabric: Endorser must be connectable
+2026-02-05 06:27:44 [ERROR]: Error: Endorser must be connectable
+    at Channel.addEndorser (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/Channel.js:259:10)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:77:21
+    at Array.forEach (<anonymous>)
+    at buildChannel (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:75:19)
+    at Object.loadFromConfig (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:60:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Gateway.connect (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/gateway.js:303:13)
+    at async initializeGateway (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:171:9)
+    at async Object.switchOrg (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:201:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:42:9
+2026-02-05 06:28:52 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 06:28:52 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 06:28:52 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:158:24
+2026-02-05 06:28:52 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:158:24
+2026-02-05 06:29:51 [ERROR]: Evidence submission failed: Cannot read properties of undefined (reading 'toString')
+2026-02-05 06:29:51 [ERROR]: TypeError: Cannot read properties of undefined (reading 'toString')
+    at Endorsement.build (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/Proposal.js:254:35)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:222:21)
+    at ContractImpl.submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/contract.js:210:45)
+    at submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:50)
+    at Object.submitEvidence (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:265:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:70:24
+2026-02-05 06:32:50 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 06:32:50 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:132:24
+2026-02-05 06:33:54 [ERROR]: Evidence submission failed: Cannot read properties of undefined (reading 'toString')
+2026-02-05 06:33:54 [ERROR]: TypeError: Cannot read properties of undefined (reading 'toString')
+    at Endorsement.build (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/Proposal.js:254:35)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:222:21)
+    at ContractImpl.submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/contract.js:210:45)
+    at submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:50)
+    at Object.submitEvidence (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:265:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:70:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+2026-02-05 06:37:48 [ERROR]: Failed to connect to Fabric: Endorser must be connectable
+2026-02-05 06:37:48 [ERROR]: Error: Endorser must be connectable
+    at Channel.addEndorser (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/Channel.js:259:10)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:77:21
+    at Array.forEach (<anonymous>)
+    at buildChannel (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:75:19)
+    at Object.loadFromConfig (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/ccp/networkconfig.js:60:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Gateway.connect (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/gateway.js:303:13)
+    at async initializeGateway (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:171:9)
+    at async Object.switchOrg (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:201:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:42:9
+2026-02-05 06:57:53 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 06:57:53 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:24
+2026-02-05 06:57:53 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 06:57:53 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:24
+2026-02-05 06:59:02 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 06:59:02 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 07:50:54 [ERROR]: Error: No valid responses from any peers. Errors:
+    peer=whistleblowersorgpeer-api.127-0-0-1.nip.io:7070, status=500, message=access denied: caller MSP 'WhistleblowersOrgMSP' is not authorized, required 'VerifierOrgMSP'
+    at newEndorsementError (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:77:12)
+    at getResponsePayload (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:45:23)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:258:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:20)
+    at async Object.verifyIntegrity (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:290:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:193:24
+2026-02-05 07:55:01 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 07:55:01 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:13:32 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.records: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:310:24
+2026-02-05 08:13:32 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.records: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:310:24
+2026-02-05 08:15:09 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.records: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:310:24
+2026-02-05 08:15:09 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.records: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.queryEvidenceByStatus (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:337:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:310:24
+2026-02-05 08:27:00 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:27:00 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:27:08 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:27:08 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:27:30 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:27:42 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:27:42 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:31:04 [ERROR]: Error: Error handling success response. Value did not match schema:
+1. return.notifications: Invalid type. Expected: array, given: null
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 08:34:03 [ERROR]: Error: No valid responses from any peers. Errors:
+    peer=whistleblowersorgpeer-api.127-0-0-1.nip.io:7070, status=500, message=access denied: caller MSP 'WhistleblowersOrgMSP' is not authorized, required 'VerifierOrgMSP'
+    at newEndorsementError (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:77:12)
+    at getResponsePayload (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:45:23)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:258:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:20)
+    at async Object.verifyIntegrity (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:290:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:193:24
+2026-02-05 09:36:12 [ERROR]: TransactionError: Commit of transaction e182961dc6b24d842208aeb0bcfb26713cfe26413fe9146758076d7d2530aef6 failed on peer verifierorgpeer-api.127-0-0-1.nip.io:7070 with status ENDORSEMENT_POLICY_FAILURE
+    at TransactionEventHandler.eventCallback (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/event/transactioneventhandler.js:111:31)
+    at CommitListenerSession.notifyListener (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/event/commitlistenersession.js:101:18)
+    at EventListener.callback (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/event/commitlistenersession.js:92:18)
+    at EventListener.onEvent (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/EventListener.js:124:10)
+    at EventService._callTransactionListener (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/EventService.js:1051:16)
+    at EventService._processTxEvents (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/EventService.js:1006:12)
+    at ClientDuplexStreamImpl.<anonymous> (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-common/lib/EventService.js:481:12)
+    at ClientDuplexStreamImpl.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushObjectMode (node:internal/streams/readable:536:3)
+2026-02-05 09:36:17 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:24
+2026-02-05 09:36:17 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 09:36:17 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:24
+2026-02-05 09:36:17 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 09:36:19 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 09:36:19 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:24
+2026-02-05 09:36:20 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:270:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:24
+2026-02-05 09:36:20 [ERROR]: Error: access denied: caller MSP 'VerifierOrgMSP' is not authorized, required 'WhistleblowersOrgMSP'
+    at SingleQueryHandler.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/impl/query/singlequeryhandler.js:64:57)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Transaction.evaluate (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:322:25)
+    at async evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:249:20)
+    at async Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:24
+2026-02-05 09:42:54 [ERROR]: Error: Contract not found: whistleblower
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:282:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)
+2026-02-05 09:42:54 [ERROR]: Error: Contract not found: whistleblower
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:282:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)
+2026-02-05 09:44:07 [ERROR]: Error: No valid responses from any peers. Errors:
+    peer=legalorgpeer-api.127-0-0-1.nip.io:7070, status=500, message=evidence must be REVIEWED to export, current: VERIFIED
+    at newEndorsementError (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:77:12)
+    at getResponsePayload (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:45:23)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:258:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:20)
+    at async Object.exportEvidence (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:357:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:292:24
+2026-02-05 10:13:04 [ERROR]: Error: Contract not found: whistleblower
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:282:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)
+2026-02-05 10:13:04 [ERROR]: Error: Contract not found: whistleblower
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:282:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)
+2026-02-05 10:15:54 [ERROR]: Error: Contract not found: whistleblower
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.getNotifications (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:274:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:133:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)
+2026-02-05 10:16:34 [ERROR]: Error: No valid responses from any peers. Errors:
+    peer=legalorgpeer-api.127-0-0-1.nip.io:7070, status=500, message=evidence must be VERIFIED or UNDER_REVIEW to review, current: EXPORTED
+    at newEndorsementError (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:77:12)
+    at getResponsePayload (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:45:23)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:258:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:20)
+    at async Object.reviewEvidence (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:336:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:247:24
+2026-02-05 10:16:43 [ERROR]: Error: Contract not found: whistleblower
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:282:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)
+2026-02-05 10:17:26 [ERROR]: Error: No valid responses from any peers. Errors:
+    peer=legalorgpeer-api.127-0-0-1.nip.io:7070, status=500, message=evidence must be VERIFIED or UNDER_REVIEW to review, current: EXPORTED
+    at newEndorsementError (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:77:12)
+    at getResponsePayload (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:45:23)
+    at Transaction.submit (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/fabric-network/lib/transaction.js:258:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async submitTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:234:20)
+    at async Object.reviewEvidence (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:336:12)
+    at async /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:247:24
+2026-02-05 10:18:13 [ERROR]: Error: Contract not found: whistleblower
+    at evaluateTransaction (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:244:15)
+    at Object.getReputation (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/services/fabric.js:282:18)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/src/routes/chaincode.js:159:37
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/layer.js:95:5)
+    at /home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:284:15
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:365:14)
+    at param (/home/luminalcore/Academics/Hackathon/TSECHacks_'26/ChainProof/fabric_gateway/node_modules/express/lib/router/index.js:376:14)

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getNotifications, getReputation } from '../services/api'
+import { getNotifications, getReputation, getEvidence } from '../services/api'
 import { hasSessionKey, getSessionKey } from '../services/crypto'
 
 function Track() {
@@ -7,6 +7,11 @@ function Track() {
     const [reputation, setReputation] = useState(null)
     const [loading, setLoading] = useState(false)
     const [evidenceId, setEvidenceId] = useState('')
+
+    // Lookup state
+    const [lookupResult, setLookupResult] = useState(null)
+    const [lookupError, setLookupError] = useState(null)
+    const [lookupLoading, setLookupLoading] = useState(false)
 
     const sessionKey = getSessionKey()
     const hasKey = hasSessionKey()
@@ -26,12 +31,30 @@ function Track() {
                 getNotifications(sessionKey.publicKeyHash),
                 getReputation(sessionKey.publicKeyHash)
             ])
-            setNotifications(notifRes.data || [])
+            const notifData = notifRes.data
+            setNotifications(Array.isArray(notifData) ? notifData : (notifData?.notifications || []))
             setReputation(repRes.data)
         } catch (error) {
             console.error('Failed to load data:', error)
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleLookup = async () => {
+        if (!evidenceId) return
+        setLookupLoading(true)
+        setLookupError(null)
+        setLookupResult(null)
+
+        try {
+            const res = await getEvidence(evidenceId)
+            if (res.error) throw new Error(res.error)
+            setLookupResult(res.data || res) // Handle both wrapper formats
+        } catch (err) {
+            setLookupError(err.message || 'Evidence not found or access denied')
+        } finally {
+            setLookupLoading(false)
         }
     }
 
@@ -210,7 +233,7 @@ function Track() {
             {/* Manual Lookup */}
             <div className="card">
                 <h3 className="card-title">🔍 Look Up Evidence</h3>
-                <div style={{ display: 'flex', gap: '1rem' }}>
+                <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
                     <input
                         type="text"
                         className="form-input"
@@ -219,10 +242,56 @@ function Track() {
                         onChange={(e) => setEvidenceId(e.target.value)}
                         style={{ flex: 1 }}
                     />
-                    <button className="btn btn-primary" disabled={!evidenceId}>
-                        Search
+                    <button
+                        className="btn btn-primary"
+                        disabled={!evidenceId || lookupLoading}
+                        onClick={handleLookup}
+                    >
+                        {lookupLoading ? 'Searching...' : 'Search'}
                     </button>
                 </div>
+
+                {lookupError && (
+                    <div style={{
+                        padding: '1rem',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        color: 'var(--error)',
+                        borderRadius: '8px'
+                    }}>
+                        {lookupError}
+                    </div>
+                )}
+
+                {lookupResult && (
+                    <div style={{
+                        padding: '1rem',
+                        background: 'var(--bg-secondary)',
+                        borderRadius: '8px'
+                    }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <strong>Status:</strong>
+                            <span className={`status-badge status-${lookupResult.status?.toLowerCase()}`}>
+                                {lookupResult.status}
+                            </span>
+                        </div>
+                        <div style={{ marginTop: '0.5rem' }}>
+                            <strong>Submitted:</strong> {new Date(lookupResult.submittedAt * 1000).toLocaleString()}
+                        </div>
+                        <div style={{ marginTop: '0.5rem' }}>
+                            <strong>Description:</strong> {lookupResult.description || 'No description'}
+                        </div>
+                        {lookupResult.integrityStatus && (
+                            <div style={{ marginTop: '0.5rem' }}>
+                                <strong>Integrity:</strong> {lookupResult.integrityStatus}
+                            </div>
+                        )}
+                        {lookupResult.rejectionComment && (
+                            <div style={{ marginTop: '0.5rem', color: 'var(--error)' }}>
+                                <strong>Rejection Reason:</strong> {lookupResult.rejectionComment}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     )

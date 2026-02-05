@@ -20,15 +20,10 @@ function App() {
   const hasKey = hasSessionKey()
 
   // Check for saved session on mount
+  // Session is ephemeral - no local storage restoration
   useEffect(() => {
-    const savedSession = localStorage.getItem('chainproof_user')
-    if (savedSession) {
-      try {
-        const user = JSON.parse(savedSession)
-        setAuthenticatedUser(user)
-        setCurrentOrg(user.organization)
-      } catch { }
-    }
+    // Clear any stale data if it exists (cleanup)
+    localStorage.removeItem('chainproof_user')
   }, [])
 
   const handleOrgSelect = async (org) => {
@@ -67,9 +62,8 @@ function App() {
   }
 
   const handleLogin = (user) => {
-    // Save to state and localStorage
+    // Save to state only (ephemeral)
     setAuthenticatedUser(user)
-    localStorage.setItem('chainproof_user', JSON.stringify(user))
 
     // Navigate to appropriate dashboard
     if (user.organization === 'VerifierOrg') {

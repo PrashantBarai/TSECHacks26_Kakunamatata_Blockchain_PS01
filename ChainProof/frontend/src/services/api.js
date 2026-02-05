@@ -33,11 +33,39 @@ export async function submitEvidenceToBackend(formData) {
     return response.json();
 }
 
-/**
- * Get evidence from backend (MongoDB cache)
- */
 export async function getEvidenceFromBackend(evidenceId) {
     const response = await fetch(`${BACKEND_URL}/api/evidence/${evidenceId}`);
+    return response.json();
+}
+
+/**
+ * Get all assignments from backend
+ */
+export async function getAssignments() {
+    const response = await fetch(`${BACKEND_URL}/api/evidence/assignments`);
+    return response.json();
+}
+/**
+ * Manual assignment of evidence
+ */
+export async function assignEvidence(evidenceId, userId = null, targetOrg = null) {
+    const response = await fetch(`${BACKEND_URL}/api/evidence/assign`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ evidenceId, userId, targetOrg })
+    });
+    return response.json();
+}
+
+/**
+ * Assign evidence to a specific legal role
+ */
+export async function assignLegalRole(evidenceId, legalRole) {
+    const response = await fetch(`${BACKEND_URL}/api/evidence/assign/legal`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ evidenceId, legalRole })
+    });
     return response.json();
 }
 
@@ -55,6 +83,26 @@ export async function exportEvidencePDF(evidenceId) {
         throw new Error('Export failed');
     }
 
+    return response.blob();
+}
+
+/**
+ * Compute SHA-256 hash of a blob (for integrity check)
+ */
+export async function computeHash(blob) {
+    const arrayBuffer = await blob.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
+/**
+ * Fetch a file from IPFS as a blob
+ */
+export async function fetchFileBlob(cid) {
+    const response = await fetch(`${BACKEND_URL}/api/evidence/proxy/${cid}`);
+    if (!response.ok) throw new Error('Failed to fetch file from IPFS');
     return response.blob();
 }
 
@@ -137,11 +185,11 @@ export async function verifyIntegrity(evidenceId, computedHash, passed, rejectio
 /**
  * Review evidence (for legal)
  */
-export async function reviewEvidence(evidenceId, complete) {
+export async function reviewEvidence(evidenceId, complete, verdict) {
     const response = await fetch(`${FABRIC_URL}/api/fabric/legal/${evidenceId}/review`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ complete })
+        body: JSON.stringify({ complete, verdict })
     });
     return response.json();
 }
@@ -234,6 +282,7 @@ export async function submitEvidenceFull(formData) {
             fileType,
             fileSize: fileSize?.toString() || '0',
             category: category || 'other',
+            description: formData.get('description'),
             publicKeyHash,
             signature
         });
@@ -258,11 +307,27 @@ export async function submitEvidenceFull(formData) {
     }
 }
 
+// =============================================================================
+// AUTH API
+// =============================================================================
+
+/**
+ * Get user profile (including stats)
+ */
+export async function getUserProfile(publicKeyHash) {
+    const response = await fetch(`${BACKEND_URL}/api/auth/me/${publicKeyHash}`);
+    return response.json();
+}
+
 export default {
     // Backend
     submitEvidenceToBackend,
     getEvidenceFromBackend,
+    getAssignments,
+    assignEvidence,
+    assignLegalRole,
     exportEvidencePDF,
+    getUserProfile,
     // Fabric Gateway
     submitEvidenceToChaincode,
     getEvidenceFromChaincode,
@@ -279,6 +344,8 @@ export default {
     addLegalComment,
     exportEvidence,
     getEvidence,
+    fetchFileBlob,
+    computeHash,
     // Combined
     submitEvidenceFull
 };

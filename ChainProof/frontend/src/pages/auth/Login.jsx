@@ -5,6 +5,7 @@ function Login({ organization, onLogin, onRegister }) {
     const [name, setName] = useState('')
     const [aadhaar, setAadhaar] = useState('')
     const [role, setRole] = useState('member')
+    const [legalRole, setLegalRole] = useState('Judge')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
@@ -59,7 +60,7 @@ function Login({ organization, onLogin, onRegister }) {
             const endpoint = mode === 'login' ? '/api/auth/login' : '/api/auth/register'
             const body = mode === 'login'
                 ? { name, aadhaar: cleanAadhaar }
-                : { name, aadhaar: cleanAadhaar, organization, role }
+                : { name, aadhaar: cleanAadhaar, organization, role, legalRole }
 
             const response = await fetch(`http://localhost:4000${endpoint}`, {
                 method: 'POST',
@@ -264,6 +265,33 @@ function Login({ organization, onLogin, onRegister }) {
                                 <option value="member">Member</option>
                                 <option value="senior">Senior {info.name}</option>
                                 <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    )}
+
+                    {mode === 'register' && organization === 'LegalOrg' && (
+                        <div style={{ marginBottom: '1rem' }}>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '0.5rem',
+                                color: 'var(--text-secondary)',
+                                fontSize: '0.9rem'
+                            }}>
+                                Legal Role
+                            </label>
+                            <select
+                                value={legalRole}
+                                onChange={(e) => setLegalRole(e.target.value)}
+                                className="form-select"
+                                style={{ width: '100%' }}
+                            >
+                                <option value="Judge">Judge</option>
+                                <option value="Advocate">Advocate</option>
+                                <option value="Clerk">Law Clerk</option>
+                                <option value="Notary">Notary</option>
+                                <option value="Prosecutor">Public Prosecutor</option>
+                                <option value="Police">Police Officer</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
                     )}

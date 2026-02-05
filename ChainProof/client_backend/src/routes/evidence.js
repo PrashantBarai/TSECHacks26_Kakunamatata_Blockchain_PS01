@@ -33,9 +33,14 @@ const upload = multer({
  * - publicKeyHash: SHA256 hash of user's public key
  * - signature: Digital signature of fileHash using private key
  */
+import User from '../models/User.js';
+import Evidence from '../models/Evidence.js';
+
+// ... existing imports ...
+
 router.post('/submit', upload.single('file'), async (req, res, next) => {
     try {
-        const { category, publicKeyHash, signature } = req.body;
+        const { category, publicKeyHash, signature, description } = req.body;
         const file = req.file;
 
         if (!file) {
@@ -79,7 +84,50 @@ router.post('/submit', upload.single('file'), async (req, res, next) => {
             console.warn('Sepolia anchoring skipped:', error.message);
         }
 
-        // TODO: Step 6: Call Fabric chaincode to store evidence
+        // Step 6: Assign to a Verifier
+        let assignedUser = null;
+        try {
+            // Find all users in VerifierOrg
+            const verifiers = await User.find({ organization: 'VerifierOrg' });
+
+            if (verifiers.length > 0) {
+                // Simple random assignment for now
+                // In production, you'd check workload/queue size
+                const randomIndex = Math.floor(Math.random() * verifiers.length);
+                assignedUser = verifiers[randomIndex];
+
+                // Increment assigned count
+                assignedUser.evidenceAssigned = (assignedUser.evidenceAssigned || 0) + 1;
+                await assignedUser.save();
+
+                console.log(`Assigned evidence ${evidenceId} to verifier: ${assignedUser.name}`);
+            } else {
+                console.warn('No verifiers found. Evidence will be unassigned.');
+            }
+        } catch (assignError) {
+            console.error('Assignment error:', assignError);
+        }
+
+        // Step 7: Store metadata in MongoDB
+        try {
+            const newEvidence = new Evidence({
+                evidenceId,
+                ipfsCid: cid,
+                submittedBy: publicKeyHash,
+                assignedTo: assignedUser ? assignedUser._id : null,
+                organization: 'WhistleblowersOrg',
+                status: 'SUBMITTED',
+                description: description || '',
+                transactionHash: sepoliaAnchor ? sepoliaAnchor.txHash : null
+            });
+            await newEvidence.save();
+            console.log('Evidence metadata saved to MongoDB');
+        } catch (dbError) {
+            console.error('Failed to save to MongoDB:', dbError);
+            // Proceed anyway, as chain storage is primary
+        }
+
+        // TODO: Step 8: Call Fabric chaincode to store evidence
         // This would use the Fabric CA Client to invoke WhistleblowerContract:SubmitEvidence
         // For now, return the data that would be sent to chaincode
 
@@ -92,14 +140,18 @@ router.post('/submit', upload.single('file'), async (req, res, next) => {
                 fileType: file.mimetype,
                 fileSize: size,
                 category: category || 'other',
+                description: description || '',
                 publicKeyHash,
+                assignedTo: assignedUser ? assignedUser.name : 'Unassigned',
                 metadataStripped: hadIdentifyingData,
                 removedMetadata: hadIdentifyingData ? Object.keys(removedMetadata).filter(k =>
                     Object.values(removedMetadata[k]).some(v => v !== null && v !== undefined)
                 ) : [],
                 sepoliaAnchor,
                 submittedAt: new Date().toISOString(),
-                message: 'Evidence submitted successfully. It will now be processed by verifiers.'
+                message: assignedUser
+                    ? `Evidence submitted and assigned to ${assignedUser.name} for verification.`
+                    : 'Evidence submitted but pending assignment (no verifiers available).'
             }
         };
 
@@ -107,6 +159,138 @@ router.post('/submit', upload.single('file'), async (req, res, next) => {
 
     } catch (error) {
         console.error('Evidence submission error:', error);
+        next(error);
+    }
+});
+
+/**
+ * POST /api/evidence/assign
+ * Manually assign evidence to a user (or next available)
+ */
+router.post('/assign', async (req, res, next) => {
+    try {
+        const { evidenceId, userId, targetOrg } = req.body;
+
+        if (!evidenceId) {
+            return res.status(400).json({ success: false, error: 'Evidence ID is required' });
+        }
+
+        let assignedUser = null;
+
+        // If specific user is requested
+        if (userId) {
+            assignedUser = await User.findById(userId);
+            if (!assignedUser) {
+                return res.status(404).json({ success: false, error: 'Target user not found' });
+            }
+        } else {
+            // Auto-assign to random user in target org
+            const org = targetOrg || 'VerifierOrg';
+            const users = await User.find({ organization: org });
+
+            if (users.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    error: `No users found in ${org}. Cannot assign.`
+                });
+            }
+
+            const randomIndex = Math.floor(Math.random() * users.length);
+            assignedUser = users[randomIndex];
+        }
+
+        // Update Evidence record
+        const evidence = await Evidence.findOneAndUpdate(
+            { evidenceId },
+            { assignedTo: assignedUser._id },
+            { new: true, upsert: true } // Create if not exists (sync with ledger)
+        );
+
+        // Update User stats
+        assignedUser.evidenceAssigned = (assignedUser.evidenceAssigned || 0) + 1;
+        await assignedUser.save();
+
+        res.json({
+            success: true,
+            data: {
+                evidenceId,
+                assignedTo: assignedUser.name,
+                organization: assignedUser.organization,
+                message: `Evidence assigned to ${assignedUser.name}`
+            }
+        });
+
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * POST /api/evidence/assign/legal
+ * Forward evidence to a specific Legal Role (e.g. Judge)
+ * Clears current assignment to remove from Verifier Dashboard
+ */
+router.post('/assign/legal', async (req, res, next) => {
+    try {
+        const { evidenceId, legalRole } = req.body;
+
+        if (!evidenceId || !legalRole) {
+            return res.status(400).json({ success: false, error: 'Evidence ID and Legal Role are required' });
+        }
+
+        // Update Evidence record
+        // set assignedTo to null to remove from Verifier's personal queue
+        const evidence = await Evidence.findOneAndUpdate(
+            { evidenceId },
+            {
+                targetLegalRole: legalRole,
+                assignedTo: null,
+                status: 'VERIFIED'
+            },
+            { new: true, upsert: true }
+        );
+
+        if (!evidence) {
+            return res.status(404).json({ success: false, error: 'Evidence not found' });
+        }
+
+        console.log(`Evidence ${evidenceId} verified and forwarded to Legal Role: ${legalRole}`);
+
+        res.json({
+            success: true,
+            data: {
+                evidenceId,
+                targetLegalRole: legalRole,
+                message: `Evidence forwarded to ${legalRole}`
+            }
+        });
+
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * GET /api/evidence/assignments
+ * Get all evidence assignments
+ */
+router.get('/assignments', async (req, res, next) => {
+    try {
+        const assignments = await Evidence.find({}, 'evidenceId assignedTo status organization targetLegalRole')
+            .populate('assignedTo', 'name organization');
+
+        const assignmentMap = {};
+        assignments.forEach(ev => {
+            if (ev.evidenceId) {
+                assignmentMap[ev.evidenceId] = ev;
+            }
+        });
+
+        res.json({
+            success: true,
+            data: assignmentMap
+        });
+    } catch (error) {
         next(error);
     }
 });
@@ -186,6 +370,53 @@ router.get('/reputation/:publicKeyHash', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+});
+
+/**
+ * GET /api/evidence/proxy/:cid
+ * Proxy IPFS content with multi-gateway fallback
+ */
+router.get('/proxy/:cid', async (req, res) => {
+    const { cid } = req.params;
+    const gateways = [
+        `https://ipfs.io/ipfs/${cid}`,
+        `https://gateway.pinata.cloud/ipfs/${cid}`,
+        `https://dweb.link/ipfs/${cid}`,
+        `https://cloudflare-ipfs.com/ipfs/${cid}`
+    ];
+
+    let lastError;
+
+    for (const url of gateways) {
+        try {
+            console.log(`Trying IPFS gateway: ${url}`);
+            // Use AbortController for timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout per gateway
+
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
+
+            if (response.ok) {
+                // Forward content-type header
+                const contentType = response.headers.get('content-type');
+                if (contentType) {
+                    res.setHeader('Content-Type', contentType);
+                }
+
+                // Use arrayBuffer for simplicity
+                const buffer = await response.arrayBuffer();
+                return res.send(Buffer.from(buffer));
+            }
+            console.warn(`Gateway ${url} failed with status: ${response.status}`);
+        } catch (error) {
+            console.warn(`Gateway ${url} error: ${error.message}`);
+            lastError = error;
+        }
+    }
+
+    console.error('All IPFS gateways failed');
+    res.status(502).json({ error: 'Failed to fetch IPFS content from all gateways', details: lastError?.message });
 });
 
 export default router;

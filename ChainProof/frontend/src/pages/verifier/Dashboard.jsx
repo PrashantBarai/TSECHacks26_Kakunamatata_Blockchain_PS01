@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
-import { queryEvidenceByStatus } from '../../services/api'
+import { queryEvidenceByStatus, getAssignments, assignEvidence, getUserProfile } from '../../services/api'
 
-function VerifierDashboard({ setPage }) {
+function VerifierDashboard({ setPage, user }) {
     const [evidence, setEvidence] = useState([])
+    const [assignments, setAssignments] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [assigning, setAssigning] = useState(null)
+    const [userStats, setUserStats] = useState(user || {})
 
     useEffect(() => {
         loadPendingEvidence()
@@ -14,23 +17,67 @@ function VerifierDashboard({ setPage }) {
         setLoading(true)
         setError(null)
         try {
-            const res = await queryEvidenceByStatus('SUBMITTED', 20)
-            // Handle various response formats
+            // Load evidence, assignments, and updated user profile in parallel
+            const promises = [
+                queryEvidenceByStatus('SUBMITTED', 20),
+                getAssignments()
+            ];
+
+            if (user?.publicKeyHash) {
+                promises.push(getUserProfile(user.publicKeyHash));
+            }
+
+            const results = await Promise.all(promises);
+            const evRes = results[0];
+            const assignRes = results[1];
+            const profileRes = results[2]; // May be undefined if no user
+
+            // Handle evidence response
             let data = []
-            if (res && res.data) {
-                data = Array.isArray(res.data) ? res.data : []
-            } else if (res && res.success === false) {
-                throw new Error(res.error || 'Failed to fetch evidence')
+            if (evRes && evRes.data) {
+                // Data comes as { records: [...], fetchedRecordsCount, bookmark }
+                const resultData = evRes.data.records || evRes.data.results || evRes.data
+                data = Array.isArray(resultData) ? resultData : []
+            } else if (evRes && evRes.success === false) {
+                throw new Error(evRes.error || 'Failed to fetch evidence')
             }
             setEvidence(data)
+
+            // Handle assignments response
+            if (assignRes && assignRes.success) {
+                setAssignments(assignRes.data || {})
+            }
+
+            // Handle user profile response
+            if (profileRes && profileRes.success) {
+                setUserStats(profileRes.data);
+            }
         } catch (err) {
-            console.error('Failed to load evidence:', err)
-            setError(err.message || 'Failed to load evidence')
+            console.error('Failed to load data:', err)
+            setError(err.message || 'Failed to load data')
             setEvidence([])
         } finally {
             setLoading(false)
         }
     }
+
+    const handleAssign = async (e, evidenceId) => {
+        e.stopPropagation(); // Prevent card click
+        setAssigning(evidenceId);
+        try {
+            await assignEvidence(evidenceId);
+            // Refresh assignments only
+            const res = await getAssignments();
+            if (res.success) {
+                setAssignments(res.data);
+            }
+        } catch (err) {
+            console.error('Assignment failed:', err);
+            alert('Failed to assign evidence');
+        } finally {
+            setAssigning(null);
+        }
+    };
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -77,15 +124,15 @@ function VerifierDashboard({ setPage }) {
                 </div>
                 <div className="card" style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--success)' }}>
-                        --
+                        {userStats.evidenceProcessed || 0}
                     </div>
-                    <div style={{ color: 'var(--text-muted)' }}>Verified Today</div>
+                    <div style={{ color: 'var(--text-muted)' }}>Processed</div>
                 </div>
                 <div className="card" style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--error)' }}>
-                        --
+                    <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--accent-primary)' }}>
+                        {userStats.evidenceAssigned || 0}
                     </div>
-                    <div style={{ color: 'var(--text-muted)' }}>Rejected Today</div>
+                    <div style={{ color: 'var(--text-muted)' }}>Assigned to You</div>
                 </div>
             </div>
 
@@ -116,57 +163,98 @@ function VerifierDashboard({ setPage }) {
                         <div className="loading-spinner"></div>
                         <p>Loading evidence...</p>
                     </div>
-                ) : evidence.length === 0 ? (
-                    <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
-                        <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✅</div>
-                        <h3>All Caught Up!</h3>
-                        <p>No pending evidence to verify.</p>
-                    </div>
-                ) : (
-                    <div>
-                        {evidence.map((item, index) => (
-                            <div
-                                key={item?.evidenceId || `item-${index}`}
-                                style={{
-                                    padding: '1rem',
-                                    background: 'var(--bg-secondary)',
-                                    borderRadius: '8px',
-                                    marginBottom: '0.75rem',
-                                    cursor: 'pointer',
-                                    transition: 'transform 0.2s',
-                                    borderLeft: `4px solid ${getStatusColor(item?.status)}`
-                                }}
-                                onClick={() => setPage({ name: 'verify', data: item })}
-                            >
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <div>
-                                        <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--accent-primary)' }}>
-                                            {item?.evidenceId || 'Unknown ID'}
-                                        </div>
-                                        <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                                            Category: {item?.category || 'N/A'} • {item?.fileType || 'N/A'} • {formatFileSize(item?.fileSize)}
-                                        </div>
-                                    </div>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <span style={{
-                                            background: 'rgba(251, 191, 36, 0.2)',
-                                            color: 'var(--warning)',
-                                            padding: '0.25rem 0.75rem',
-                                            borderRadius: '20px',
-                                            fontSize: '0.8rem',
-                                            fontWeight: 'bold'
-                                        }}>
-                                            {item?.status || 'UNKNOWN'}
-                                        </span>
-                                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-                                            {formatDate(item?.submittedAt)}
-                                        </div>
-                                    </div>
-                                </div>
+                ) : (() => {
+                    const myEvidence = evidence.filter(item => {
+                        const assignment = assignments[item?.evidenceId];
+                        // Only show if assigned to this user
+                        // We use name matching since populate returns name
+                        return assignment?.assignedTo?.name === user?.name;
+                    });
+
+                    if (myEvidence.length === 0) {
+                        return (
+                            <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
+                                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✅</div>
+                                <h3>All Caught Up!</h3>
+                                <p>No evidence assigned to you.</p>
                             </div>
-                        ))}
-                    </div>
-                )}
+                        );
+                    }
+
+                    return (
+                        <div>
+                            {myEvidence.map((item, index) => {
+                                const assignment = assignments[item?.evidenceId];
+                                const assignedUser = assignment?.assignedTo?.name;
+
+                                return (
+                                    <div
+                                        key={item?.evidenceId || `item-${index}`}
+                                        style={{
+                                            padding: '1rem',
+                                            background: 'var(--bg-secondary)',
+                                            borderRadius: '8px',
+                                            marginBottom: '0.75rem',
+                                            cursor: 'pointer',
+                                            transition: 'transform 0.2s',
+                                            borderLeft: `4px solid ${getStatusColor(item?.status)}`
+                                        }}
+                                        onClick={() => setPage({ name: 'verify', data: item })}
+                                    >
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                    <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--accent-primary)' }}>
+                                                        {item?.evidenceId || 'Unknown ID'}
+                                                    </div>
+                                                    {item?.description && (
+                                                        <div style={{
+                                                            fontSize: '0.85rem',
+                                                            color: 'var(--text-secondary)',
+                                                            maxWidth: '400px',
+                                                            whiteSpace: 'nowrap',
+                                                            overflow: 'hidden',
+                                                            textOverflow: 'ellipsis',
+                                                            fontStyle: 'italic'
+                                                        }}>
+                                                            "{item.description}"
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.25rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                                    <span>Category: {item?.category || 'N/A'}</span>
+                                                    <span>•</span>
+                                                    <span>{item?.fileType || 'N/A'}</span>
+                                                    <span>•</span>
+                                                    <span>{formatFileSize(item?.fileSize)}</span>
+                                                    <span>•</span>
+                                                    <span style={{
+                                                        color: 'var(--success)',
+                                                        fontWeight: 'bold',
+                                                        background: 'rgba(16, 185, 129, 0.1)',
+                                                        padding: '2px 8px',
+                                                        borderRadius: '12px'
+                                                    }}>
+                                                        👤 Assigned to Me
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div style={{ textAlign: 'right', marginLeft: '1rem' }}>
+                                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+                                                    {formatDate(item?.submittedAt)}
+                                                </div>
+                                                <button className="btn btn-secondary" style={{ padding: '0.2rem 0.5rem', fontSize: '0.8rem' }}>
+                                                    Review →
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    );
+                })()}
             </div>
         </div>
     )

@@ -148,10 +148,10 @@ function Home({ setPage }) {
                         </p>
 
                         <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
-                            <button className="btn btn-primary" onClick={() => setPage('submit')}>
+                            <button className="btn btn-primary" onClick={() => setPage({ name: 'submit' })}>
                                 🛡️ Submit Evidence
                             </button>
-                            <button className="btn btn-secondary" onClick={() => setPage('track')}>
+                            <button className="btn btn-secondary" onClick={() => setPage({ name: 'track' })}>
                                 📊 Track Status
                             </button>
                         </div>

@@ -57,7 +57,7 @@ router.post('/org/switch', async (req, res, next) => {
  */
 router.post('/evidence/submit', async (req, res, next) => {
     try {
-        const { evidenceId, ipfsCid, fileHash, fileType, fileSize, category, publicKeyHash, signature } = req.body;
+        const { evidenceId, ipfsCid, fileHash, fileType, fileSize, category, description, publicKeyHash, signature } = req.body;
 
         if (!evidenceId || !ipfsCid || !fileHash || !publicKeyHash || !signature) {
             return res.status(400).json({
@@ -72,6 +72,7 @@ router.post('/evidence/submit', async (req, res, next) => {
             fileType || 'unknown',
             fileSize || 0,
             category || 'other',
+            description,
             publicKeyHash,
             signature
         );
@@ -241,9 +242,9 @@ router.get('/verify/:evidenceId/notes', async (req, res, next) => {
  */
 router.post('/legal/:evidenceId/review', async (req, res, next) => {
     try {
-        const { complete } = req.body;
-        logger.info(`Legal review: ${req.params.evidenceId}, complete: ${complete}`);
-        const result = await fabric.reviewEvidence(req.params.evidenceId, complete || false);
+        const { complete, verdict } = req.body;
+        logger.info(`Legal review: ${req.params.evidenceId}, complete: ${complete}, verdict: ${verdict}`);
+        const result = await fabric.reviewEvidence(req.params.evidenceId, complete || false, verdict);
         res.json({ success: true, data: result });
     } catch (error) {
         next(error);

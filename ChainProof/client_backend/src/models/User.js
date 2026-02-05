@@ -38,6 +38,13 @@ const userSchema = new mongoose.Schema({
         enum: ['VerifierOrg', 'LegalOrg']
     },
 
+    // Role within Legal Organization (e.g. Judge, Advocate)
+    legalRole: {
+        type: String,
+        enum: ['Judge', 'Advocate', 'Clerk', 'Notary', 'Prosecutor', 'Police', 'Other'],
+        required: function () { return this.organization === 'LegalOrg'; }
+    },
+
     // Staff role within org
     role: {
         type: String,
@@ -120,7 +127,7 @@ userSchema.statics.verifyCredentials = async function (name, aadhaar) {
 };
 
 // Static method to register new user
-userSchema.statics.registerUser = async function (name, aadhaar, organization, role = 'member') {
+userSchema.statics.registerUser = async function (name, aadhaar, organization, role = 'member', legalRole = null) {
     const { aadhaarHash, publicKeyHash } = this.generateHashes(name, aadhaar);
 
     // Check if already exists
@@ -137,7 +144,8 @@ userSchema.statics.registerUser = async function (name, aadhaar, organization, r
         aadhaarHash,
         publicKeyHash,
         organization,
-        role
+        role,
+        legalRole
     });
 
     await user.save();
@@ -158,6 +166,7 @@ userSchema.methods.toSafeObject = function () {
         publicKeyHash: this.publicKeyHash,
         organization: this.organization,
         role: this.role,
+        legalRole: this.legalRole,
         status: this.status,
         evidenceAssigned: this.evidenceAssigned,
         evidenceProcessed: this.evidenceProcessed,

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
-import { queryEvidenceByStatus } from '../../services/api'
+import { queryEvidenceByStatus, getAssignments } from '../../services/api'
 
-function LegalDashboard({ setPage }) {
+function LegalDashboard({ setPage, user }) {
     const [evidence, setEvidence] = useState([])
+    const [assignments, setAssignments] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [stats, setStats] = useState({ ready: 0, reviewing: 0, exported: 0 })
 
     useEffect(() => {
         loadVerifiedEvidence()
@@ -12,9 +14,52 @@ function LegalDashboard({ setPage }) {
 
     const loadVerifiedEvidence = async () => {
         setLoading(true)
+        setError(null)
         try {
-            const res = await queryEvidenceByStatus('VERIFIED', 20)
-            setEvidence(res.data || [])
+            // Fetch multiple statuses in parallel to avoid "disappearing" evidence
+            const [verRes, revRes, urRes, expRes, assignRes] = await Promise.all([
+                queryEvidenceByStatus('VERIFIED', 50),
+                queryEvidenceByStatus('REVIEWED', 50),
+                queryEvidenceByStatus('UNDER_REVIEW', 50),
+                queryEvidenceByStatus('EXPORTED', 50),
+                getAssignments()
+            ]);
+
+            const rawEvidence = [
+                ...(Array.isArray(verRes.data) ? verRes.data : (verRes.data?.records || [])),
+                ...(Array.isArray(revRes.data) ? revRes.data : (revRes.data?.records || [])),
+                ...(Array.isArray(urRes.data) ? urRes.data : (urRes.data?.records || [])),
+                ...(Array.isArray(expRes.data) ? expRes.data : (expRes.data?.records || []))
+            ];
+
+            const assignmentMap = assignRes.data || {};
+            setAssignments(assignmentMap);
+
+            // Filter for unique evidence and by Legal Role
+            const ids = new Set();
+            const filteredEvidence = rawEvidence.filter(item => {
+                if (ids.has(item.evidenceId)) return false;
+                ids.add(item.evidenceId);
+
+                // Role filtering
+                if (user?.legalRole) {
+                    const meta = assignmentMap[item.evidenceId];
+                    return meta?.targetLegalRole === user.legalRole;
+                }
+                return true;
+            });
+
+
+            // Calculate stats for the dashboard header
+            setStats({
+                ready: filteredEvidence.filter(e => e.status === 'VERIFIED').length,
+                reviewing: filteredEvidence.filter(e => e.status === 'UNDER_REVIEW' || e.status === 'REVIEWED').length,
+                exported: filteredEvidence.filter(e => e.status === 'EXPORTED').length
+            });
+
+            // Sort by submission date (newest first)
+            setEvidence(filteredEvidence.sort((a, b) => b.submittedAt - a.submittedAt));
+
         } catch (err) {
             setError(err.message)
         } finally {
@@ -47,19 +92,19 @@ function LegalDashboard({ setPage }) {
             }}>
                 <div className="card" style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--success)' }}>
-                        {evidence.length}
+                        {stats.ready}
                     </div>
                     <div style={{ color: 'var(--text-muted)' }}>Ready for Review</div>
                 </div>
                 <div className="card" style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--accent-primary)' }}>
-                        --
+                        {stats.reviewing}
                     </div>
                     <div style={{ color: 'var(--text-muted)' }}>In Review</div>
                 </div>
                 <div className="card" style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--accent-secondary)' }}>
-                        --
+                        {stats.exported}
                     </div>
                     <div style={{ color: 'var(--text-muted)' }}>Court Ready</div>
                 </div>

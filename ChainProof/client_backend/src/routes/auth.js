@@ -19,7 +19,7 @@ const router = express.Router();
  */
 router.post('/register', async (req, res) => {
     try {
-        const { name, aadhaar, organization, role } = req.body;
+        const { name, aadhaar, organization, role, legalRole } = req.body;
 
         // Validate required fields
         if (!name || !aadhaar || !organization) {
@@ -37,6 +37,14 @@ router.post('/register', async (req, res) => {
             });
         }
 
+        // Validate Legal Role if LegalOrg
+        if (organization === 'LegalOrg' && !legalRole) {
+            return res.status(400).json({
+                success: false,
+                error: 'Role (e.g., Judge, Advocate) is required for Legal Organization registration'
+            });
+        }
+
         // Validate Aadhaar format (12 digits)
         const cleanAadhaar = aadhaar.replace(/\s/g, '');
         if (!/^\d{12}$/.test(cleanAadhaar)) {
@@ -47,7 +55,7 @@ router.post('/register', async (req, res) => {
         }
 
         // Register user
-        const user = await User.registerUser(name, cleanAadhaar, organization, role);
+        const user = await User.registerUser(name, cleanAadhaar, organization, role, legalRole);
 
         console.log(`Registered new ${organization} user: ${name} (${user.publicKeyHash.substring(0, 12)}...)`);
 
@@ -59,6 +67,7 @@ router.post('/register', async (req, res) => {
                 publicKeyHash: user.publicKeyHash,
                 organization: user.organization,
                 role: user.role,
+                legalRole: user.legalRole,
                 // Give user a memorable key (first 8 chars of hash)
                 loginKey: user.publicKeyHash.substring(0, 8).toUpperCase()
             }

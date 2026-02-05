@@ -255,24 +255,46 @@ async function evaluateTransaction(contractName, functionName, ...args) {
 // WHISTLEBLOWER CONTRACT FUNCTIONS
 // ============================================================
 
-async function submitEvidence(evidenceId, ipfsCid, fileHash, fileType, fileSize, category, publicKeyHash, signature) {
+async function submitEvidence(evidenceId, ipfsCid, fileHash, fileType, fileSize, category, description, publicKeyHash, signature) {
+    // Ensure we are submitting as WhistleblowersOrg (required by chaincode policy)
+    if (getCurrentOrg() !== 'WhistleblowersOrg') {
+        logger.info(`Auto-switching to WhistleblowersOrg for evidence submission...`);
+        await switchOrg('WhistleblowersOrg');
+    }
+
     return await submitTransaction('whistleblower', 'SubmitEvidence',
-        evidenceId, ipfsCid, fileHash, fileType, String(fileSize), category, publicKeyHash, signature);
+        evidenceId, ipfsCid, fileHash, fileType, String(fileSize), category, description || '', publicKeyHash, signature);
 }
 
 async function getNotifications(publicKeyHash) {
+    if (getCurrentOrg() !== 'WhistleblowersOrg') {
+        logger.info(`Auto-switching to WhistleblowersOrg for notifications...`);
+        await switchOrg('WhistleblowersOrg');
+    }
     return await evaluateTransaction('whistleblower', 'GetNotifications', publicKeyHash);
 }
 
 async function getReputation(publicKeyHash) {
+    if (getCurrentOrg() !== 'WhistleblowersOrg') {
+        logger.info(`Auto-switching to WhistleblowersOrg for reputation...`);
+        await switchOrg('WhistleblowersOrg');
+    }
     return await evaluateTransaction('whistleblower', 'GetReputation', publicKeyHash);
 }
 
 async function markNotificationRead(notificationId) {
+    if (getCurrentOrg() !== 'WhistleblowersOrg') {
+        logger.info(`Auto-switching to WhistleblowersOrg for marking as read...`);
+        await switchOrg('WhistleblowersOrg');
+    }
     return await submitTransaction('whistleblower', 'MarkNotificationRead', notificationId);
 }
 
 async function updatePolygonAnchor(evidenceId, polygonTxHash) {
+    if (getCurrentOrg() !== 'WhistleblowersOrg') {
+        logger.info(`Auto-switching to WhistleblowersOrg for polygon anchor...`);
+        await switchOrg('WhistleblowersOrg');
+    }
     return await submitTransaction('whistleblower', 'UpdatePolygonAnchor', evidenceId, polygonTxHash);
 }
 
@@ -281,11 +303,19 @@ async function updatePolygonAnchor(evidenceId, polygonTxHash) {
 // ============================================================
 
 async function verifyIntegrity(evidenceId, computedHash, passed, rejectionComment) {
+    if (getCurrentOrg() !== 'VerifierOrg') {
+        logger.info(`Auto-switching to VerifierOrg for verification...`);
+        await switchOrg('VerifierOrg');
+    }
     return await submitTransaction('verifier', 'VerifyIntegrity',
         evidenceId, computedHash, String(passed), rejectionComment || '');
 }
 
 async function addVerificationNote(evidenceId, noteId, content, hashComparison) {
+    if (getCurrentOrg() !== 'VerifierOrg') {
+        logger.info(`Auto-switching to VerifierOrg for verification note...`);
+        await switchOrg('VerifierOrg');
+    }
     return await submitTransaction('verifier', 'AddVerificationNote',
         evidenceId, noteId, content, hashComparison || '');
 }
@@ -298,11 +328,19 @@ async function getVerificationNotes(evidenceId) {
 // LEGAL CONTRACT FUNCTIONS
 // ============================================================
 
-async function reviewEvidence(evidenceId, complete) {
-    return await submitTransaction('legal', 'ReviewEvidence', evidenceId, String(complete));
+async function reviewEvidence(evidenceId, complete, verdict) {
+    if (getCurrentOrg() !== 'LegalOrg') {
+        logger.info(`Auto-switching to LegalOrg for review...`);
+        await switchOrg('LegalOrg');
+    }
+    return await submitTransaction('legal', 'ReviewEvidence', evidenceId, String(complete), verdict || 'STAY');
 }
 
 async function addLegalComment(evidenceId, commentId, content, courtReadiness, recommendation) {
+    if (getCurrentOrg() !== 'LegalOrg') {
+        logger.info(`Auto-switching to LegalOrg for comment...`);
+        await switchOrg('LegalOrg');
+    }
     return await submitTransaction('legal', 'AddLegalComment',
         evidenceId, commentId, content, courtReadiness, recommendation);
 }
@@ -312,6 +350,10 @@ async function getLegalComments(evidenceId) {
 }
 
 async function exportEvidence(evidenceId) {
+    if (getCurrentOrg() !== 'LegalOrg') {
+        logger.info(`Auto-switching to LegalOrg for export...`);
+        await switchOrg('LegalOrg');
+    }
     return await submitTransaction('legal', 'ExportEvidence', evidenceId);
 }
 
@@ -340,7 +382,7 @@ module.exports = {
     switchOrg,
     closeGateway,
     getCurrentOrg,
-    loadIdentityFromMSP,
+    loadIdentityFromWallet,
     submitTransaction,
     evaluateTransaction,
     // Whistleblower

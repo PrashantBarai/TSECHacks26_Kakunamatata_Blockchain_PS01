@@ -5,6 +5,7 @@ import { submitEvidenceFull } from '../services/api'
 function Submit() {
     const [file, setFile] = useState(null)
     const [category, setCategory] = useState('')
+    const [description, setDescription] = useState('')
     const [dragging, setDragging] = useState(false)
     const [submitting, setSubmitting] = useState(false)
     const [result, setResult] = useState(null)
@@ -29,6 +30,10 @@ function Submit() {
 
     const handleSubmit = async () => {
         if (!file) return
+        if (!category) {
+            setError('Please select a category')
+            return
+        }
 
         // Check if user has provided their key this session
         if (!hasSessionKey()) {
@@ -53,6 +58,7 @@ function Submit() {
             const formData = new FormData()
             formData.append('file', file)
             formData.append('category', category || 'other')
+            formData.append('description', description)
             formData.append('publicKeyHash', sessionKey.publicKeyHash)
             formData.append('signature', signature)
 
@@ -71,6 +77,7 @@ function Submit() {
     const reset = () => {
         setFile(null)
         setCategory('')
+        setDescription('')
         setResult(null)
         setError(null)
     }
@@ -233,7 +240,7 @@ function Submit() {
             </div>
 
             <div className="card">
-                <h3 className="card-title">🏷️ Category (Optional)</h3>
+                <h3 className="card-title">🏷️ Category</h3>
                 <select
                     className="form-select"
                     value={category}
@@ -250,6 +257,18 @@ function Submit() {
                 </select>
             </div>
 
+            <div className="card">
+                <h3 className="card-title">📝 Description (Optional)</h3>
+                <textarea
+                    className="form-input"
+                    rows={4}
+                    placeholder="Provide additional context about the evidence (optional)..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    style={{ width: '100%', resize: 'vertical' }}
+                />
+            </div>
+
             <div className="card" style={{ background: 'var(--bg-secondary)' }}>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                     🔒 <strong>Privacy Notice:</strong> Your file will be processed to remove
@@ -261,7 +280,7 @@ function Submit() {
             <button
                 className="btn btn-primary"
                 onClick={handleSubmit}
-                disabled={!file || submitting || !hasKey}
+                disabled={!file || !category || submitting || !hasKey}
                 style={{ marginTop: '1rem' }}
             >
                 {submitting ? (

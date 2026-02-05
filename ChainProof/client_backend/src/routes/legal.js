@@ -95,79 +95,75 @@ router.post('/comment', async (req, res, next) => {
 });
 
 /**
- * POST /api/legal/export
- * Export evidence for court proceedings
- * 
- * Body:
- * - evidenceId: Evidence ID
+ * GET /api/legal/report/:evidenceId
+ * Download court report as PDF
  */
-router.post('/export', async (req, res, next) => {
+router.get('/report/:evidenceId', async (req, res, next) => {
     try {
-        const { evidenceId } = req.body;
+        const { evidenceId } = req.params;
 
-        if (!evidenceId) {
-            return res.status(400).json({
-                success: false,
-                error: 'evidenceId is required'
-            });
-        }
+        // In a real system, we would fetch the export data from the blockchain 
+        // to ensure it matches the audit trail.
+        // For now, we generate a report based on the evidence ID.
 
-        // TODO: Get evidence from Fabric chaincode
-        // For now, use mock data for PDF generation demo
+        // Mock data for PDF generation (in production, fetch from Chaincode)
         const mockEvidence = {
             evidenceId,
-            ipfsCid: 'QmMockCid123',
-            fileHash: 'a'.repeat(64),
+            ipfsCid: 'QmMockCid-' + evidenceId.substring(4),
+            fileHash: 'sha256-' + evidenceId.substring(4),
             fileType: 'application/pdf',
-            category: 'corruption',
-            status: 'REVIEWED',
-            integrityStatus: 'VERIFIED',
+            category: 'verified-evidence',
+            status: 'EXPORTED',
+            integrityStatus: 'VALIDATED',
             submittedAt: Math.floor(Date.now() / 1000) - 86400,
             verifiedAt: Math.floor(Date.now() / 1000) - 43200,
             reviewedAt: Math.floor(Date.now() / 1000) - 3600,
             exportedAt: Math.floor(Date.now() / 1000),
             polygonTxHash: '0x' + 'b'.repeat(64),
-            polygonAnchorAt: Math.floor(Date.now() / 1000) - 80000,
             custodyLog: [
                 {
                     action: 'SUBMIT',
                     actorOrg: 'WhistleblowersOrgMSP',
                     timestamp: Math.floor(Date.now() / 1000) - 86400,
-                    description: 'Evidence submitted anonymously via cryptographic keypair'
+                    description: 'Evidence submitted'
                 },
                 {
                     action: 'VERIFY',
                     actorOrg: 'VerifierOrgMSP',
                     timestamp: Math.floor(Date.now() / 1000) - 43200,
-                    description: 'Integrity check: hashes match, verification passed'
+                    description: 'Verification complete'
                 },
                 {
                     action: 'REVIEW',
                     actorOrg: 'LegalOrgMSP',
                     timestamp: Math.floor(Date.now() / 1000) - 3600,
                     description: 'Legal review completed'
-                },
-                {
-                    action: 'EXPORT',
-                    actorOrg: 'LegalOrgMSP',
-                    timestamp: Math.floor(Date.now() / 1000),
-                    description: 'Evidence exported for court proceedings'
                 }
             ]
         };
 
-        // Generate PDF
         const pdfBuffer = await generateAuditReport(mockEvidence);
 
-        // Set headers for PDF download
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="ChainProof_Audit_${evidenceId}.pdf"`);
-        res.setHeader('Content-Length', pdfBuffer.length);
-
+        res.setHeader('Content-Disposition', `attachment; filename="ChainProof_Report_${evidenceId}.pdf"`);
         res.send(pdfBuffer);
 
     } catch (error) {
-        console.error('Export error:', error);
+        next(error);
+    }
+});
+
+/**
+ * POST /api/legal/export
+ * Trigger blockchain status update for export
+ */
+router.post('/export', async (req, res, next) => {
+    try {
+        const { evidenceId } = req.body;
+        // This route is mostly a placeholder now as the frontend 
+        // calls the Fabric Gateway directly for the status update.
+        res.json({ success: true, evidenceId });
+    } catch (error) {
         next(error);
     }
 });
